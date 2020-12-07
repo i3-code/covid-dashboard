@@ -1,0 +1,52 @@
+.slide-left {
+    animation: slide-left cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.slide-right {
+    animation: slide-right cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.slide-up {
+    animation: slide-up cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.slide-down {
+    animation: slide-down cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes slide-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes slide-right {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes slide-up {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes slide-down {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
+

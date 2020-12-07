@@ -1,0 +1,11 @@
+.copyright {
+  min-width: 6rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  user-select: none;
+}
+
+.copyright-text {
+  color: transparent;
+  text-shadow: 0 0 0.03em #eeeeee, 0.12em 0.06em 0.03em #00dcdc, -0.12em -0.06em 0.03em #ff3232;
+}

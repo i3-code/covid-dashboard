@@ -1,0 +1,45 @@
+@import "utils/_reset";
+@import "utils/_normalize";
+@import "utils/vars";
+
+html {
+	font-family: $mainFont;
+	font-size: $mainFontSize;
+	overflow: hidden;
+}
+
+body {
+	min-width: 320px;
+	min-height: 320px;
+	color: $mainFontColor;
+    background: linear-gradient(to top, #ece9e6, $default-color);
+}
+
+img {
+    width: 100%;
+}
+
+a {
+	color: $mainFontColor;
+}
+
+.text-normal {
+    color: $mainFontColor;
+}
+
+.text-inverted {
+    color: $default-color;
+}
+
+.text-hidden {
+    color: transparent;
+}
+
+.interactive {
+	&:hover {
+        transform: scale(1.05);
+    }
+    &:active {
+        transform: scale(1);
+    }
+}
