@@ -1,4 +1,5 @@
 import Create from './component';
+import Api from './api';
 
 class Main {
   constructor() {
@@ -9,7 +10,9 @@ class Main {
     this.init();
   }
 
-  init() {
+  async init() {
+    this.api = new Api();
+    this.data = await this.api.fetchData();
     console.log('Main class loaded');
     this.helloDiv = new Create('div', document.body, '', 'Hello world!');
   }
