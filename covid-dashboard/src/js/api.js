@@ -1,20 +1,21 @@
+import { API_MAIN_URL } from './const';
+
 export default class Api {
   constructor() {
     this.data = {};
   }
 
-  async fetchData() {
+  async fetchData(url) {
     const requestOptions = {
       method: 'GET',
-      redirect: 'follow'
+      redirect: 'follow',
     };
+    const fetch_url = API_MAIN_URL + (url || '');
 
-    fetch("https://api.covid19api.com/", requestOptions)
-      .then(response => response.text())
-      .then(result => {
-        console.log(result);
-        return result;
-      })
+    return fetch(fetch_url, requestOptions)
+      .then(response => response.json())
+      .then(data => data)
       .catch(error => console.log('error', error));
   }
+
 }

@@ -13,6 +13,7 @@ class Main {
   async init() {
     this.api = new Api();
     this.data = await this.api.fetchData();
+    console.log(this.data);
     console.log('Main class loaded');
     this.helloDiv = new Create('div', document.body, '', 'Hello world!');
   }
