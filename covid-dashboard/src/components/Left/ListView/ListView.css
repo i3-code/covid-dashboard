@@ -1,0 +1,11 @@
+.ListView {
+  color: #d6d6d6;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.Arrow {
+  width: 16px;
+  height: 16px;
+}
