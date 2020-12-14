@@ -1,0 +1,59 @@
+ul, li {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+}
+
+ul {
+  list-style: none;
+}
+
+::-webkit-scrollbar {
+  height: 7px;
+  width: 7px;
+  background: #404040;
+}
+
+::-webkit-scrollbar-corner {
+  background: #404040;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #5c5c5c;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+}
+
+.App {
+  width: 90%;
+  height: 90%;
+  margin: auto;
+  cursor: default;
+  display: grid;
+  grid-template-columns: 0.5fr 1fr 0.7fr;
+  grid-template-rows: 0.1fr 0.5fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    "h h h"
+    "l c r";
+}
+
+.Header {
+  grid-area: h;
+}
+
+.Left {
+  grid-area: l;
+}
+
+.Center {
+  grid-area: c;
+}
+
+.Right {
+  grid-area: r;
+}
