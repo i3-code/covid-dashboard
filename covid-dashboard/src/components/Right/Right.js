@@ -1,8 +1,8 @@
 import Table from './Table/Table';
-export default function Right() {
+export default function Right(props) {
     return (
       <div className="Right">
-        <Table country="Default"/>
+        <Table api={props.api} />
       </div>
     );
 }

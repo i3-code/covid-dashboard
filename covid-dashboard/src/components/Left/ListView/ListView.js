@@ -8,11 +8,11 @@ export default class ListView extends React.Component {
         return (
             <div className="ListView">
               <span className="Arrow">
-                <button onClick={() => changeMode(-1)}>Left</button>
+                <button onClick={() => changeMode(-1)}>&lt;</button>
               </span>
               <span>{modeName}</span>
               <span>
-              <button onClick={() => changeMode(1)}>Right</button>
+              <button onClick={() => changeMode(1)}>&gt;</button>
               </span>
             </div>
             );
