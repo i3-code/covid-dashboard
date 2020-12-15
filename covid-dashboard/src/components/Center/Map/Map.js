@@ -1,6 +1,7 @@
 import React from 'react';
 import { MapContainer, TileLayer, Circle, Popup, GeoJSON } from 'react-leaflet';
 import Api from '../../../api/api';
+import './Map.css';
 import WorldData from 'geojson-world-map';
 
 const dafaultGeoJSONStyle = {
@@ -129,9 +130,11 @@ export default class Map extends React.Component {
               activeCircle: null,
             });
           }}>
-            <span><b>Country: {this.state.activeCircle.country}</b><br /><b>Cases: {this.state.activeCircle.cases}</b><br /><b>Deaths: {this.state.activeCircle.deaths}</b><br /><b>Today cases: {this.state.activeCircle.todayCases}</b><br /><b>Today Deaths: {this.state.activeCircle.todayDeaths}</b></span>
+            <div className='info_pannel'><div className="info_pannel_country">{this.state.activeCircle.country}</div><hr/><div className="info_pannel_content"><p>Total cases: {this.state.activeCircle.cases}</p><p>Total deaths: {this.state.activeCircle.deaths}</p><p>Total recovered: {this.state.activeCircle.recovered}</p><p>Today cases: {this.state.activeCircle.todayCases}</p><p>Today deaths: {this.state.activeCircle.todayDeaths}</p><p>Today recovered: {this.state.activeCircle.todayRecovered}</p></div></div>
+            <div></div>
           </Popup>
           )}
+
         </MapContainer>
         /*
         <ul className="CountryList">
