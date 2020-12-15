@@ -36,7 +36,7 @@ img {
   display: grid;
   grid-template-columns: 0.5fr 1fr 0.7fr;
   grid-template-rows: 0.1fr 0.5fr;
-  gap: 0px 0px;
+  gap: 5px 5px;
   grid-template-areas:
     "h h h"
     "l c r";

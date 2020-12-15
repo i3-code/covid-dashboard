@@ -11,12 +11,9 @@ export default class Api {
       redirect: 'follow',
     };
     const url = `${this.mainURL}${query}&allowNull=false`;
-    console.log(url);
     fetch(url, requestOptions)
-    .then(res => res.json())
-    .then(
-      resultCallBack,
-      errorCallBack,
-    )
+    .then(response => response.json())
+    .then(result => resultCallBack(result))
+    .catch(error => errorCallBack(error));
   }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapContainer, TileLayer, Circle, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Circle } from 'react-leaflet';
 import Api from '../../../api/api'
 
 export default class Map extends React.Component {

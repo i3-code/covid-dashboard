@@ -1,16 +1,16 @@
 import React from 'react';
 import './Country.scss';
 
-import { CountryStateContext } from '../../../../Context';
+import { AppContext } from '../../../../Context';
 
 export default class Country extends React.Component {
   render() {
     return (
-      <CountryStateContext.Consumer>
+      <AppContext.Consumer>
         {context => {
-          const countryClass = (this.props.name === context.name) ? 'country selected' : 'country';
+          const countryClass = (this.props.name === context.api.country) ? 'country selected' : 'country';
           return (
-             <li className={countryClass} onClick={() => {context.toggleCountry(this.props.name)}}>
+             <li className={countryClass} onClick={() => {context.api.toggleApiState('country', this.props.name)}}>
              <span className="countryCounter">{this.props.count}</span>
              <span className="countryName">{this.props.name}</span>
              <span className="countryFlag">
@@ -18,7 +18,7 @@ export default class Country extends React.Component {
              </span>
            </li>
       )}}
-    </CountryStateContext.Consumer>
+    </AppContext.Consumer>
     );
   }
 }
