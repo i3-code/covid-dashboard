@@ -26,7 +26,7 @@ export default class Table extends React.Component {
     if (this.throttle) return false;
     this.throttle = true;
     this.fetchData();
-    setTimeout(() => this.throttle = false, 50);
+    setTimeout(() => this.throttle = false, 100);
   }
 
   render() {

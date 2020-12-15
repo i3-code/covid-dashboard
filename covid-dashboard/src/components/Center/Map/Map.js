@@ -1,6 +1,5 @@
 import React from 'react';
-import { MapContainer, TileLayer, Circle, Popup, GeoJSON } from 'react-leaflet';
-import Api from '../../../api/api';
+import { MapContainer, MapConsumer, TileLayer, Circle, Popup, GeoJSON } from 'react-leaflet';
 import './Map.css';
 import WorldData from 'geojson-world-map';
 
@@ -18,32 +17,11 @@ const highlightGeoJSONStyle = {
   fillOpacity: 0.7
 }
 
-function highlightFeature(e) {
-  const layer = e.target;
-  layer.setStyle(highlightGeoJSONStyle);
-}
-
-function resetHighlight(e) {
-  const layer = e.target;
-  layer.setStyle(dafaultGeoJSONStyle);
-}
-
-// function clickToFeature(e) {
-//   e.target.getBounds();
-// }
-
-function onEachFeature(component, feature, layer) {
-  layer.on({
-    mouseover: highlightFeature,
-    mouseout: resetHighlight,
-    // click: clickToFeature
-  });
-}
-
 export default class Map extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      api: props.api,
       error: null,
       isLoaded: false,
       items: [],
@@ -51,23 +29,41 @@ export default class Map extends React.Component {
     };
   }
 
-  resultCallBack(result) {
-    this.setState({
-      isLoaded: true,
-      items: result
+  highlightFeature(e) {
+    const layer = e.target;
+    layer.setStyle(highlightGeoJSONStyle);
+  }
+  
+  resetHighlight(e) {
+    const layer = e.target;
+    layer.setStyle(dafaultGeoJSONStyle);
+  }
+  
+  clickToFeature(e) {
+    this.map.setView(e.latlng, this.map.getZoom())
+  }
+
+  onEachFeature(feature, layer) {
+    layer.on({
+      mouseover: this.highlightFeature.bind(this),
+      mouseout: this.resetHighlight.bind(this),
+      click: this.clickToFeature.bind(this),
     });
   }
 
-  errorCallBack(error) {
-    this.setState({
-      isLoaded: true,
-      error
-    });
+  fetchData() {
+    this.state.api.fetch(this, 'countries', false);
   }
 
-  async componentDidMount() {
-    const query = `countries?sort=${this.props.modeId}`
-    new Api(query, this.resultCallBack.bind(this), this.errorCallBack.bind(this));
+  componentDidMount() {
+    this.fetchData();
+  }
+
+  componentDidUpdate() {
+    if (this.throttle) return false;
+    this.throttle = true;
+    this.fetchData();
+    setTimeout(() => this.throttle = false, 100);
   }
 
   render() {
@@ -78,21 +74,21 @@ export default class Map extends React.Component {
     } else if (!isLoaded) {
       return <div>Loading...</div>;
     } else {
-      // const position = [35, -40];
       const position = [30, 0];
       const zoom = 2;
 
       return (
-        <MapContainer center={position} zoom={zoom}>
+        <MapContainer center={position} zoom={zoom} >
           <TileLayer
-            // attributionControl = {false}
             url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
             maxZoom={20}
+            noWrap="true"
+            bounds={[[-90, -180], [90, 180]]}
           />
 
           <GeoJSON
             data={WorldData}
-            onEachFeature={onEachFeature.bind(null, this)}
+            onEachFeature={this.onEachFeature.bind(this)}
             style={dafaultGeoJSONStyle}
             // eventHandlers={{
             //   click: (e) => {
@@ -130,17 +126,27 @@ export default class Map extends React.Component {
               activeCircle: null,
             });
           }}>
-            <div className='info_pannel'><div className="info_pannel_country">{this.state.activeCircle.country}</div><hr/><div className="info_pannel_content"><p>Total cases: {this.state.activeCircle.cases}</p><p>Total deaths: {this.state.activeCircle.deaths}</p><p>Total recovered: {this.state.activeCircle.recovered}</p><p>Today cases: {this.state.activeCircle.todayCases}</p><p>Today deaths: {this.state.activeCircle.todayDeaths}</p><p>Today recovered: {this.state.activeCircle.todayRecovered}</p></div></div>
-            <div></div>
+            <div className='info_pannel'>
+              <div className="info_pannel_country">{this.state.activeCircle.country}</div>
+              <hr/>
+              <div className="info_pannel_content">
+                <p>Total cases: {this.state.activeCircle.cases}</p>
+                <p>Total deaths: {this.state.activeCircle.deaths}</p>
+                <p>Total recovered: {this.state.activeCircle.recovered}</p>
+                <p>Today cases: {this.state.activeCircle.todayCases}</p>
+                <p>Today deaths: {this.state.activeCircle.todayDeaths}</p>
+                <p>Today recovered: {this.state.activeCircle.todayRecovered}</p>
+                </div>
+              </div>
           </Popup>
           )}
-
+          <MapConsumer>
+            {(map) => {
+              this.map = map;
+              return null;
+            }}
+          </MapConsumer>
         </MapContainer>
-        /*
-        <ul className="CountryList">
-
-        </ul>
-        */
       );
 
     }

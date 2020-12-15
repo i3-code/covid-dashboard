@@ -31,10 +31,10 @@ export default class App extends React.Component {
     this.setState(newState);
   }
 
-  async fetchApi(child, url = '') {
+  async fetchApi(child, url = '', countryFilter = true) {
     const sort = this.state.api.sort[this.state.api.sortIndex];
     const prefix = (url) ? `${url}` : '';
-    const country = (this.state.api.country) ? `/${this.state.api.country}` : '';
+    const country = (this.state.api.country && countryFilter) ? `/${this.state.api.country}` : '';
     const postfix = (url || country) ? '?' : '';
     const query = `${prefix}${country}${postfix}sort=${sort}`;
     
@@ -61,7 +61,7 @@ export default class App extends React.Component {
         <div className="App">
         <Header />
         <Left api={this.state.api} />
-        <Center />
+        <Center api={this.state.api} />
         <Right api={this.state.api} />
         </div>
       </AppContext.Provider>

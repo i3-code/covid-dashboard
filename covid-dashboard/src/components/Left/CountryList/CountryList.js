@@ -12,8 +12,19 @@ export default class CountryList extends React.Component {
     };
   }
 
+  fetchData() {
+    this.state.api.fetch(this, 'countries', false);
+  }
+
   componentDidMount() {
-    this.state.api.fetch(this, 'countries');
+    this.fetchData();
+  }
+
+  componentDidUpdate() {
+    if (this.throttle) return false;
+    this.throttle = true;
+    this.fetchData();
+    setTimeout(() => this.throttle = false, 100);
   }
 
   render() {
