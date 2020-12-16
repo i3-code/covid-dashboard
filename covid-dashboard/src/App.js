@@ -20,8 +20,23 @@ export default class App extends React.Component {
         per100k: false,
         fetch: this.fetchApi.bind(this),
         toggleApiState: this.toggleApiState.bind(this),
+        chooseSort: this.chooseSort.bind(this),
+        formatCounter: this.formatCounter.bind(this),
+        throttleTime: 100,
       }
     }
+  }
+
+  chooseSort(sort = '') {
+    const prefix = (this.state.api.today) ? 'today' : '';
+    const sortType = sort || this.state.api.sort[this.state.api.sortIndex];
+    const postfix = (this.state.api.today) ? sortType.slice(0, 1).toUpperCase().concat(sortType.slice(1)) : sortType;
+    return `${prefix}${postfix}`;
+  }
+
+  formatCounter(counter, population = 100000) {
+    const count = (this.state.api.per100k) ? Math.round(counter / (population / 100000)) : counter;
+    return count.toLocaleString();
   }
 
   toggleApiState(id, value) {
