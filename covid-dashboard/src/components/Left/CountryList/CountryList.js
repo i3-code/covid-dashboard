@@ -1,6 +1,7 @@
 import './CountryList.css';
 import React from 'react';
 import Country from './Country/Country';
+
 export default class CountryList extends React.Component {
   constructor(props) {
     super(props);
@@ -8,7 +9,7 @@ export default class CountryList extends React.Component {
       api: props.api,
       error: null,
       isLoaded: false,
-      items: []
+      items: [],
     };
   }
 
@@ -41,7 +42,7 @@ export default class CountryList extends React.Component {
           {items.sort((a, b) => format(b[sort], b.population) - format(a[sort], a.population)).map(item => {
             const count = format(item[sort], item.population);
             return (
-            <Country count={count} name={item.country} flag={item.countryInfo.flag} key={item.country} />
+            <Country count={count} name={item.country} flag={item.countryInfo.flag} key={item.country} coords={[item.countryInfo.lat, item.countryInfo.long]} />
           )})}
         </ul>
       );

@@ -1,7 +1,9 @@
 import React from 'react';
-import { MapContainer, MapConsumer, TileLayer, Circle, Popup, GeoJSON } from 'react-leaflet';
+import { MapContainer, MapConsumer, TileLayer, ZoomControl, Circle, Popup, GeoJSON, Tooltip, LayerGroup } from 'react-leaflet';
 import './Map.css';
 import WorldData from 'geojson-world-map';
+// import { AppContext } from '../../../Context';
+// const liSelected = document.querySelector('.selected');
 
 const dafaultGeoJSONStyle = {
   color: 'white',
@@ -33,14 +35,15 @@ export default class Map extends React.Component {
     const layer = e.target;
     layer.setStyle(highlightGeoJSONStyle);
   }
-  
+
   resetHighlight(e) {
     const layer = e.target;
     layer.setStyle(dafaultGeoJSONStyle);
   }
-  
+
   clickToFeature(e) {
-    this.map.setView(e.latlng, this.map.getZoom())
+    this.map.flyTo(e.latlng, this.map.getZoom())
+
   }
 
   onEachFeature(feature, layer) {
@@ -78,26 +81,24 @@ export default class Map extends React.Component {
       const zoom = 2;
 
       return (
-        <MapContainer center={position} zoom={zoom} >
+        <MapContainer center={position} zoom={zoom} zoomControl={false}>
           <TileLayer
             url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
             maxZoom={20}
             noWrap="true"
             bounds={[[-90, -180], [90, 180]]}
           />
+          <ZoomControl position='bottomleft' />
+
 
           <GeoJSON
-            data={WorldData}
-            onEachFeature={this.onEachFeature.bind(this)}
-            style={dafaultGeoJSONStyle}
-            // eventHandlers={{
-            //   click: (e) => {
-            //     console.log('click');
-            //     console.log(e.target.getBounds());
-            //   },
-            // }}
-          />
-
+              data={WorldData}
+              onEachFeature={this.onEachFeature.bind(this)}
+              style={dafaultGeoJSONStyle}
+            >
+              
+            </GeoJSON>
+            
           {items.sort((a, b) => b[modeId] - a[modeId]).map(item => (
             <Circle
               key={item.country}
@@ -106,20 +107,18 @@ export default class Map extends React.Component {
               stroke={false}
               pathOptions={{ fillColor: '#990000', fillOpacity: 0.9 }}
               eventHandlers={{
-                click: () => {
+                click: (e) => {
                   this.setState({
                     activeCircle: item,
                   });
+                  this.map.flyTo(e.latlng);
                 },
               }}
-            />
+             
+            >
+               <Tooltip> <div>{item.country}</div> <div>Cases: {item.cases}</div> </Tooltip>
+               </Circle>
           ))}
-
-          {/* <Popup>
-                <span><b>Country: {item.country}</b><br /><b>Cases: {item.cases}</b><br /><b>Deaths: {item.deaths}</b><br /><b>Today cases: {item.todayCases}</b><br /><b>Today Deaths: {item.todayDeaths}</b></span>
-              </Popup> */}
-
-          {/* </Circle> */}
 
           {this.state.activeCircle && (<Popup position={[this.state.activeCircle.countryInfo.lat, this.state.activeCircle.countryInfo.long]} onClose={() => {
             this.setState({
@@ -128,7 +127,7 @@ export default class Map extends React.Component {
           }}>
             <div className='info_pannel'>
               <div className="info_pannel_country">{this.state.activeCircle.country}</div>
-              <hr/>
+              <hr />
               <div className="info_pannel_content">
                 <p>Total cases: {this.state.activeCircle.cases}</p>
                 <p>Total deaths: {this.state.activeCircle.deaths}</p>
@@ -136,8 +135,8 @@ export default class Map extends React.Component {
                 <p>Today cases: {this.state.activeCircle.todayCases}</p>
                 <p>Today deaths: {this.state.activeCircle.todayDeaths}</p>
                 <p>Today recovered: {this.state.activeCircle.todayRecovered}</p>
-                </div>
               </div>
+            </div>
           </Popup>
           )}
           <MapConsumer>
@@ -146,7 +145,12 @@ export default class Map extends React.Component {
               return null;
             }}
           </MapConsumer>
+          {/* <AppContext.Consumer>
+            {value => console.log(value)}
+          </AppContext.Consumer> */}
+
         </MapContainer>
+
       );
 
     }
