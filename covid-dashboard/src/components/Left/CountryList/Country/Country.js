@@ -8,9 +8,13 @@ export default class Country extends React.Component {
     return (
       <AppContext.Consumer>
         {context => {
-          const countryClass = (this.props.name === context.api.country) ? 'country selected' : 'country';
+          const sameCountry = (context.api.country === this.props.name);
+          const countryClass = (sameCountry) ? 'country selected' : 'country';
           return (
-             <li className={countryClass} onClick={() => {context.api.toggleApiState('country', this.props.name)}}>
+             <li className={countryClass} onClick={() => {
+              const newCountry = (sameCountry) ? '' : this.props.name;
+              context.api.toggleApiState('country', newCountry);
+              }}>
              <span className="countryCounter">{this.props.count}</span>
              <span className="countryName">{this.props.name}</span>
              <span className="countryFlag">

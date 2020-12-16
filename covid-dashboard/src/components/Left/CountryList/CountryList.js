@@ -24,12 +24,13 @@ export default class CountryList extends React.Component {
     if (this.throttle) return false;
     this.throttle = true;
     this.fetchData();
-    setTimeout(() => this.throttle = false, 100);
+    setTimeout(() => this.throttle = false, this.state.api.throttleTime);
   }
 
   render() {
     const { error, isLoaded, items } = this.state;
-    const sort = this.props.api.sort[this.props.api.sortIndex];
+    const sort = this.state.api.chooseSort();
+    const format = this.state.api.formatCounter;
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
@@ -37,9 +38,11 @@ export default class CountryList extends React.Component {
     } else {
       return (
         <ul className="CountryList">
-          {items.sort((a, b) => b[sort] - a[sort]).map(item => (
-            <Country count={item[sort].toLocaleString()} name={item.country} flag={item.countryInfo.flag} key={item.country} />
-          ))}
+          {items.sort((a, b) => format(b[sort], b.population) - format(a[sort], a.population)).map(item => {
+            const count = format(item[sort], item.population);
+            return (
+            <Country count={count} name={item.country} flag={item.countryInfo.flag} key={item.country} />
+          )})}
         </ul>
       );
     }
