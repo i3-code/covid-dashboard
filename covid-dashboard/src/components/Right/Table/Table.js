@@ -26,17 +26,23 @@ export default class Table extends React.Component {
     if (this.throttle) return false;
     this.throttle = true;
     this.fetchData();
-    setTimeout(() => this.throttle = false, 100);
+    setTimeout(() => this.throttle = false, this.state.api.throttleTime);
   }
 
   render() {
     const { error, isLoaded, items } = this.state;
-    const { cases, deaths, recovered } = items;
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
       return <div>Loading...</div>;
     } else {
+      const population = items.population;
+      let cases = (this.state.api.today) ? items.todayCases : items.cases;
+      cases = this.state.api.formatCounter(cases, population);
+      let deaths = (this.state.api.today) ? items.todayDeaths : items.deaths;
+      deaths = this.state.api.formatCounter(deaths, population);
+      let recovered = (this.state.api.today) ? items.todayRecovered : items.recovered;
+      recovered = this.state.api.formatCounter(recovered, population);
       return (
         <AppContext.Consumer>
           {context => {

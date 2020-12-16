@@ -63,7 +63,7 @@ export default class Map extends React.Component {
     if (this.throttle) return false;
     this.throttle = true;
     this.fetchData();
-    setTimeout(() => this.throttle = false, 100);
+    setTimeout(() => this.throttle = false, this.state.api.throttleTime);
   }
 
   render() {
