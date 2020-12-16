@@ -1,7 +1,9 @@
 import React from 'react';
+import ReactDOMServer from 'react-dom/server';
 import { MapContainer, MapConsumer, TileLayer, ZoomControl, Circle, Popup, GeoJSON, Tooltip, LayerGroup } from 'react-leaflet';
 import './Map.css';
 import WorldData from 'geojson-world-map';
+import { tooltip } from 'leaflet';
 // import { AppContext } from '../../../Context';
 // const liSelected = document.querySelector('.selected');
 
@@ -19,6 +21,19 @@ const highlightGeoJSONStyle = {
   fillOpacity: 0.7
 }
 
+// const customToolTip = ({ layer }) => {
+//   let popupContent;
+//   if (layer.properties) {
+//     popupContent = layer.feature.properties.name;
+//   }
+
+//   return (
+//     <div>
+//       {popupContent}
+//     </div>
+//   );
+// };
+
 export default class Map extends React.Component {
   constructor(props) {
     super(props);
@@ -34,6 +49,10 @@ export default class Map extends React.Component {
   highlightFeature(e) {
     const layer = e.target;
     layer.setStyle(highlightGeoJSONStyle);
+    // return (
+    //   <Tooltip>{layer.feature.properties.name}</Tooltip>
+    // )
+    // console.log(layer.feature.properties.name);
   }
 
   resetHighlight(e) {
@@ -43,10 +62,11 @@ export default class Map extends React.Component {
 
   clickToFeature(e) {
     this.map.flyTo(e.latlng, this.map.getZoom())
-
   }
 
   onEachFeature(feature, layer) {
+    let popup = <Popup />;
+    layer.bindPopup(popup);
     layer.on({
       mouseover: this.highlightFeature.bind(this),
       mouseout: this.resetHighlight.bind(this),
@@ -96,6 +116,7 @@ export default class Map extends React.Component {
               onEachFeature={this.onEachFeature.bind(this)}
               style={dafaultGeoJSONStyle}
             >
+              {/* <Tooltip></Tooltip> */}
               
             </GeoJSON>
             
@@ -121,6 +142,7 @@ export default class Map extends React.Component {
           ))}
 
           {this.state.activeCircle && (<Popup position={[this.state.activeCircle.countryInfo.lat, this.state.activeCircle.countryInfo.long]} onClose={() => {
+            console.log(this.state.activeCircle);
             this.setState({
               activeCircle: null,
             });
