@@ -17,7 +17,7 @@ class LineGraph extends React.Component {
   // lineChart() {
   //   const { items } = this.state;
   //   (
-  //     <Line
+  //     <LineZ
   //       data={{
   //         labels: items.map(item => item.country),
   //         datasets: [
