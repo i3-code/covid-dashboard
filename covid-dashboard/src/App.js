@@ -6,6 +6,8 @@ import Header from './components/Header/Header';
 import Left from './components/Left/Left';
 import Center from './components/Center/Center';
 import Right from './components/Right/Right';
+import Bottom from './components/Bottom/Bottom';
+
 
 import { AppContext } from './Context';
 export default class App extends React.Component {
@@ -78,6 +80,7 @@ export default class App extends React.Component {
         <Left api={this.state.api} />
         <Center api={this.state.api} />
         <Right api={this.state.api} />
+        <Bottom api={this.state.api} />
         </div>
       </AppContext.Provider>
     );
