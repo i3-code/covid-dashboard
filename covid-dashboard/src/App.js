@@ -8,6 +8,7 @@ import Center from './components/Center/Center';
 import Right from './components/Right/Right';
 import Bottom from './components/Bottom/Bottom';
 
+import { countryNames } from './data/countries.js';
 
 import { AppContext } from './Context';
 export default class App extends React.Component {
@@ -24,9 +25,18 @@ export default class App extends React.Component {
         toggleApiState: this.toggleApiState.bind(this),
         chooseSort: this.chooseSort.bind(this),
         formatCounter: this.formatCounter.bind(this),
+        countryName: this.countryName.bind(this),
         throttleTime: 100,
       }
     }
+  }
+
+  countryName(country) {
+    for (const item of countryNames) {
+      if (!item.possibleNames) item.possibleNames = [];
+      if (country === item.name || item.possibleNames.includes(country)) return item.name;
+    }
+    return '';
   }
 
   chooseSort(sort = '') {
@@ -43,8 +53,9 @@ export default class App extends React.Component {
 
   toggleApiState(id, value) {
     if(!id) return false;
+    const country = (id === 'country');
     const newState = {...this.state};
-    newState.api[id] = value;
+    newState.api[id] = (country) ? this.countryName(value) : value;
     this.setState(newState);
   }
 
@@ -76,11 +87,11 @@ export default class App extends React.Component {
     return (
       <AppContext.Provider value={this.state}>
         <div className="App">
-        <Header />
-        <Left api={this.state.api} />
-        <Center api={this.state.api} />
-        <Right api={this.state.api} />
-        <Bottom api={this.state.api} />
+          <Header />
+          <Left api={this.state.api} />
+          <Center api={this.state.api} />
+          <Right api={this.state.api} />
+          <Bottom api={this.state.api} />
         </div>
       </AppContext.Provider>
     );

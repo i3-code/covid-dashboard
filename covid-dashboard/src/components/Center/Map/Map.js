@@ -1,7 +1,10 @@
 import React from 'react';
-import { MapContainer, MapConsumer, TileLayer, ZoomControl, Circle, Popup, GeoJSON, Tooltip } from 'react-leaflet';
+import { MapContainer, MapConsumer, TileLayer, ZoomControl, Circle, Popup, GeoJSON } from 'react-leaflet';
 import './Map.css';
+
 import worldData from '../../../data/countries.json';
+import { countryNames } from '../../../data/countries.js';
+
 // import WorldData from 'geojson-world-map';
 // import { AppContext } from '../../../Context';
 
@@ -36,7 +39,7 @@ export default class Map extends React.Component {
     // console.log(layer.feature);
     layer.setStyle(highlightGeoJSONStyle);
     const { items } = this.state;
-    items.map((item) => {
+    for (const item of items) {
       if (item.countryInfo.iso3 === layer.feature.id) {
         layer.bindTooltip(`<div class=""><h5>${item.country}</h5> <p>Cases: ${item.cases}</p></div>`, 
         {
@@ -44,9 +47,22 @@ export default class Map extends React.Component {
           sticky: true,
           className: 'leaflet-tooltip-own',
         }).openTooltip();
+        break;
       }
-    })
+    }
     // layer.feature.properties.name
+  }
+
+  moveMapToCountry() {
+    const country = this.state.api.country;
+    if (country) {
+      for (const item of countryNames) {
+        if (country === item.name) {
+          this.map.panTo([item.lat, item.long]);
+          break;
+        }
+      }
+    }
   }
 
   resetHighlight(e) {
@@ -55,7 +71,11 @@ export default class Map extends React.Component {
   }
 
   clickToFeature(e) {
-    this.map.flyTo(e.latlng, this.map.getZoom())
+    const country = this.state.api.countryName(e.target.feature.properties.name);
+    const sameCountry = (this.state.api.country === country);
+    const newCountry = (sameCountry) ? '' : country;
+    this.state.api.toggleApiState('country', newCountry);
+    // if (!sameCountry) this.map.flyTo(e.latlng, this.map.getZoom());
   }
 
   onEachFeature(feature, layer) {
@@ -79,6 +99,7 @@ export default class Map extends React.Component {
     this.throttle = true;
     this.fetchData();
     setTimeout(() => this.throttle = false, this.state.api.throttleTime);
+    this.moveMapToCountry();
   }
 
   render() {
