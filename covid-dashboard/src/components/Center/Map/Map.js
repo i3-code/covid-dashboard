@@ -1,9 +1,9 @@
 import React from 'react';
-import { MapContainer, MapConsumer, TileLayer, ZoomControl, Circle, Popup, GeoJSON, Tooltip, LayerGroup } from 'react-leaflet';
+import { MapContainer, MapConsumer, TileLayer, ZoomControl, Circle, Popup, GeoJSON, Tooltip } from 'react-leaflet';
 import './Map.css';
-import WorldData from 'geojson-world-map';
+import worldData from '../../../data/countries.json';
+// import WorldData from 'geojson-world-map';
 // import { AppContext } from '../../../Context';
-// const liSelected = document.querySelector('.selected');
 
 const dafaultGeoJSONStyle = {
   color: 'white',
@@ -33,7 +33,20 @@ export default class Map extends React.Component {
 
   highlightFeature(e) {
     const layer = e.target;
+    // console.log(layer.feature);
     layer.setStyle(highlightGeoJSONStyle);
+    const { items } = this.state;
+    items.map((item) => {
+      if (item.countryInfo.iso3 === layer.feature.id) {
+        layer.bindTooltip(`<div class=""><h5>${item.country}</h5> <p>Cases: ${item.cases}</p></div>`, 
+        {
+          direction: 'bottom',
+          sticky: true,
+          className: 'leaflet-tooltip-own',
+        }).openTooltip();
+      }
+    })
+    // layer.feature.properties.name
   }
 
   resetHighlight(e) {
@@ -42,12 +55,7 @@ export default class Map extends React.Component {
   }
 
   clickToFeature(e) {
-    console.log(e);
-    const country = e.target.feature.properties.name;
-    const sameCountry = (this.state.api.country === country);
-    const newCountry = (sameCountry) ? '' : country;
-    this.state.api.toggleApiState('country', newCountry);
-    if (!sameCountry) this.map.flyTo(e.latlng, this.map.getZoom());
+    this.map.flyTo(e.latlng, this.map.getZoom())
   }
 
   onEachFeature(feature, layer) {
@@ -96,13 +104,12 @@ export default class Map extends React.Component {
 
 
           <GeoJSON
-              data={WorldData}
-              onEachFeature={this.onEachFeature.bind(this)}
-              style={dafaultGeoJSONStyle}
-            >
-              
-            </GeoJSON>
-            
+          // worldData.features
+            data={worldData.features}
+            onEachFeature={this.onEachFeature.bind(this)}
+            style={dafaultGeoJSONStyle}
+          />
+
           {items.sort((a, b) => b[modeId] - a[modeId]).map(item => (
             <Circle
               key={item.country}
@@ -120,11 +127,12 @@ export default class Map extends React.Component {
               }}
              
             >
-               <Tooltip> <div>{item.country}</div> <div>Cases: {item.cases}</div> </Tooltip>
+               {/* <Tooltip> <div>{item.country}</div> <div>Cases: {item.cases}</div> </Tooltip> */}
                </Circle>
           ))}
 
           {this.state.activeCircle && (<Popup position={[this.state.activeCircle.countryInfo.lat, this.state.activeCircle.countryInfo.long]} onClose={() => {
+            // console.log(this.state.activeCircle);
             this.setState({
               activeCircle: null,
             });
@@ -136,9 +144,9 @@ export default class Map extends React.Component {
                 <p>Total cases: {this.state.activeCircle.cases}</p>
                 <p>Total deaths: {this.state.activeCircle.deaths}</p>
                 <p>Total recovered: {this.state.activeCircle.recovered}</p>
-                <p>Today cases: {this.state.activeCircle.todayCases}</p>
+                {/* <p>Today cases: {this.state.activeCircle.todayCases}</p>
                 <p>Today deaths: {this.state.activeCircle.todayDeaths}</p>
-                <p>Today recovered: {this.state.activeCircle.todayRecovered}</p>
+                <p>Today recovered: {this.state.activeCircle.todayRecovered}</p> */}
               </div>
             </div>
           </Popup>
