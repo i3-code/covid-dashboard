@@ -42,8 +42,12 @@ export default class Map extends React.Component {
   }
 
   clickToFeature(e) {
-    this.map.flyTo(e.latlng, this.map.getZoom())
-
+    console.log(e);
+    const country = e.target.feature.properties.name;
+    const sameCountry = (this.state.api.country === country);
+    const newCountry = (sameCountry) ? '' : country;
+    this.state.api.toggleApiState('country', newCountry);
+    if (!sameCountry) this.map.flyTo(e.latlng, this.map.getZoom());
   }
 
   onEachFeature(feature, layer) {
