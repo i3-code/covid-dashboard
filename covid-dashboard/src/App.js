@@ -46,9 +46,9 @@ export default class App extends React.Component {
     return `${prefix}${postfix}`;
   }
 
-  formatCounter(counter, population = 100000) {
+  formatCounter(counter = 0, population = 100000, locale = true) {
     const count = (this.state.api.per100k) ? Math.round(counter / (population / 100000)) : counter;
-    return count.toLocaleString();
+    return (locale) ? count.toLocaleString() : count;
   }
 
   toggleApiState(id, value) {

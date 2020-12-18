@@ -14,9 +14,7 @@ export default class Left extends React.Component {
   changeMode(value) {
     const { sort, sortIndex } = this.state.api;
     if (((sortIndex + value) < 0) || ((sortIndex + value) >= sort.length)) return;
-    const newState = {...this.state};
-    newState.api.sortIndex = sortIndex + value;
-    this.setState(newState);
+    this.state.api.toggleApiState('sortIndex', sortIndex + value);
   }
 
   generateModeName() {
