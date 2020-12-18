@@ -2,11 +2,12 @@ import './ListView.css';
 import React from 'react';
 
 export default class ListView extends React.Component {
+  
     render() {
         const changeMode = this.props.changeMode;
         const modeName = this.props.modeName;
         return (
-            <div className="ListView">
+            <div className="ListView" data-mode={(modeName.split(' ')[1]).toLowerCase()}>
               <span className="Arrow">
                 <button onClick={() => changeMode(-1)}>&lt;</button>
               </span>
@@ -18,3 +19,5 @@ export default class ListView extends React.Component {
             );
     }
 }
+
+// data-mode={(modeName.split(' ')[1]).toLowerCase()}
