@@ -24,10 +24,26 @@ export default class Map extends React.Component {
       isLoaded: false,
       items: [],
     };
+    this.layerColors = {};
   }
 
 
-  /*
+  updateMapStyles() {
+    if (!this.state.items.length) return;
+    const colors = [d3.schemeReds[9], d3.schemeGreys[9], d3.schemeGreens[9]]
+    const color = d3.scaleOrdinal(colors[this.state.api.sortIndex]);
+    const sort = this.state.api.chooseSort();
+    const format = this.state.api.formatCounter;
+    const maxNumber = format(this.state.items[0][sort], this.state.items[0]['population'], false);
+    this.state.items.reverse().forEach((item, index) => {
+      const id = item.countryInfo.iso3;
+      const value = format(item[sort], item.population, false);
+      const percent = parseFloat((value / maxNumber).toFixed(2));
+      this.layerColors[id] = color(percent);
+    });
+  }
+
+   /*
   getCountryColor(id) {
     if (!this.state.items.length) return '';
     const colorGradations = 9;
@@ -50,18 +66,15 @@ export default class Map extends React.Component {
   }
   */
 
- getCountryColor(id) {
-  if (!this.state.items.length) return '';
-  const colors = ['red', 'black', 'green'];
-  const color = colors[this.state.api.sortIndex];
-
-  for (const item of this.state.items.reverse()) {
-    if (item.countryInfo.iso3 === id) {
-        return color;
+  getCountryColor(id) {
+    if (!this.state.items.length) return '';
+    for (const item of this.state.items.reverse()) {
+      if (item.countryInfo.iso3 === id) {
+          return this.layerColors[id];
+      }
     }
+    return '';
   }
-  return '';
-}
 
   styleGeoJson(id) {
     const fillColor = this.getCountryColor(id);
@@ -140,6 +153,7 @@ export default class Map extends React.Component {
 
   componentDidMount() {
     this.fetchData();
+    this.updateMapStyles();
   }
 
   componentDidUpdate() {
@@ -147,6 +161,7 @@ export default class Map extends React.Component {
     this.throttle = true;
     this.fetchData();
     this.moveMapToCountry();
+    this.updateMapStyles();
     setTimeout(() => this.throttle = false, this.state.api.throttleTime);
   }
 
