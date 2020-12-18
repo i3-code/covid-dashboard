@@ -1,25 +1,18 @@
 import React from 'react';
-import { MapContainer, MapConsumer, TileLayer, ZoomControl, Circle, Popup, GeoJSON } from 'react-leaflet';
+import { MapContainer, MapConsumer, TileLayer, ZoomControl, GeoJSON } from 'react-leaflet';
 import './Map.css';
+
+import * as d3 from 'd3';
 
 import worldData from '../../../data/countries.json';
 import { countryNames } from '../../../data/countries.js';
 
-// import WorldData from 'geojson-world-map';
-// import { AppContext } from '../../../Context';
-
-// const dafaultGeoJSONStyle = {
-//   color: 'white',
-//   weight: 0,
-//   fillColor: '',
-//   fillOpacity: 0,
-// }
 
 const highlightGeoJSONStyle = {
   color: 'white',
   weight: 1,
   dashArray: '1',
-  fillOpacity: 0.7
+  fillOpacity: 0.75
 }
 
 export default class Map extends React.Component {
@@ -30,68 +23,72 @@ export default class Map extends React.Component {
       error: null,
       isLoaded: false,
       items: [],
-      activeCircle: null,
-      mode: 'cases',
     };
-
-    // this.mode = document.querySelector('.ListView').dataset;
-    // console.log(props);
-    this.geoJsonLayer = React.createRef();
+    this.layerColors = {};
   }
 
-  getColor(mode, d) {
-    if (mode === 'cases') {
-      return d > 1000000  ? '#e60000' :
-      d > 100000  ? '#ff1a1a' :
-      d > 10000  ? '#ff4d4d' :
-      d > 1000   ? '#ff6666' :
-      d > 100   ? '#ff9999' :
-      d > 10   ? '#ffcccc' :
-                 '#ffe6e6';
-    }
 
-    if (mode === 'deaths') {
-      return d > 10000000  ? '#1a1a1a' :
-      d > 1000000  ? '#333333' :
-      d > 100000  ? '#4d4d4d' :
-      d > 10000   ? '#666666' :
-      d > 1000   ? '#808080' :
-      d > 100   ? '#999999' :
-                 '#bfbfbf';
-    }
-
-    if (mode === 'recovered') {
-      return d > 10000000  ? '#2d862d' :
-      d > 1000000  ? '#39ac39' :
-      d > 100000  ? '#53c653' :
-      d > 10000   ? '#79d279' :
-      d > 1000   ? '#8cd98c' :
-      d > 100   ? '#b3e6b3' :
-                 '#c6ecc6';
-    }
-
+  updateMapStyles() {
+    if (!this.state.items.length) return;
+    const colors = [d3.schemeReds[9], d3.schemeGreys[9], d3.schemeGreens[9]]
+    const color = d3.scaleOrdinal(colors[this.state.api.sortIndex]);
+    const sort = this.state.api.chooseSort();
+    const format = this.state.api.formatCounter;
+    const maxNumber = format(this.state.items[0][sort], this.state.items[0]['population'], false);
+    this.state.items.reverse().forEach((item, index) => {
+      const id = item.countryInfo.iso3;
+      const value = format(item[sort], item.population, false);
+      const percent = parseFloat((value / maxNumber).toFixed(2));
+      this.layerColors[id] = color(percent);
+    });
   }
 
-  styleGeoJson(curMode, feature) {
-    // console.log(feature);
-    const { items } = this.state;
-    // const sortIndex = this.state.api.sortIndex;
-    // const sort = this.state.api.sort;
+   /*
+  getCountryColor(id) {
+    if (!this.state.items.length) return '';
+    const colorGradations = 9;
+    const colors = [d3.schemeReds[colorGradations], d3.schemeGreys[colorGradations], d3.schemeGreens[colorGradations]];
+    const color = d3.scaleOrdinal(colors[this.state.api.sortIndex]);
 
-    for (const item of items) {
-      if (item.countryInfo.iso3 === feature.id) {
+    const sort = this.state.api.sort[this.state.api.sortIndex];
+    const format = this.state.api.formatCounter;
+    const maxNumber = format(this.state.items[0][sort], this.state.items[0]['population'], false);
 
-        return {
-            fillColor: this.getColor(curMode, item[curMode]),
-            weight: 0,
-            opacity: 1,
-            color: 'white',
-            dashArray: '',
-            fillOpacity: 0.8
-        };
+    console.log(this.state.items[0]);
+    for (const item of this.state.items.reverse()) {
+      if (item.countryInfo.iso3 === id) {
+          const value = format(item[sort], item.population, false);
+          const percent = parseFloat((value / maxNumber).toFixed(2));
+          return color(percent);
       }
     }
-}
+    return '';
+  }
+  */
+
+  getCountryColor(id) {
+    if (!this.state.items.length) return '';
+    for (const item of this.state.items.reverse()) {
+      if (item.countryInfo.iso3 === id) {
+          return this.layerColors[id];
+      }
+    }
+    return '';
+  }
+
+  styleGeoJson(id) {
+    const fillColor = this.getCountryColor(id);
+    const fillOpacity = (fillColor) ? 0.75 : 0;
+    const style = {
+      fillColor,
+      weight: 0,
+      opacity: 1,
+      color: 'white',
+      dashArray: '',
+      fillOpacity,
+    };
+    return style;
+  }
 
 
   highlightFeature(e) {
@@ -114,9 +111,10 @@ export default class Map extends React.Component {
   }
 
   resetHighlight(e) {
+    const id = e.target.feature.id;
     const layer = e.target;
-    // console.log(this.geoJsonLayer.current);
-    this.geoJsonLayer.current.resetStyle(layer);
+    const style = this.styleGeoJson(id);
+    layer.setStyle(style);
   }
 
   moveMapToCountry() {
@@ -124,8 +122,7 @@ export default class Map extends React.Component {
     if (country) {
       for (const item of countryNames) {
         if (country === item.name) {
-          // this.map.flyTo([item.lat, item.long], 5)
-          this.map.panTo([item.lat, item.long]);
+          this.map.flyTo([item.lat, item.long], this.map.getZoom())
           break;
         }
       }
@@ -138,10 +135,11 @@ export default class Map extends React.Component {
     const sameCountry = (this.state.api.country === country);
     const newCountry = (sameCountry) ? '' : country;
     this.state.api.toggleApiState('country', newCountry);
-    // if (!sameCountry) this.map.flyTo(e.latlng, this.map.getZoom());
   }
 
   onEachFeature(feature, layer) {
+    const style = this.styleGeoJson(feature.id);
+    layer.setStyle(style);
     layer.on({
       mouseover: this.highlightFeature.bind(this),
       mouseout: this.resetHighlight.bind(this),
@@ -151,39 +149,24 @@ export default class Map extends React.Component {
 
   fetchData() {
     this.state.api.fetch(this, 'countries', false);
-    
   }
 
   componentDidMount() {
     this.fetchData();
-
-    this.setState({
-      mode: document.querySelector('.ListView').dataset.mode,
-    });
+    this.updateMapStyles();
   }
 
   componentDidUpdate() {
     if (this.throttle) return false;
     this.throttle = true;
     this.fetchData();
-    setTimeout(() => this.throttle = false, this.state.api.throttleTime);
     this.moveMapToCountry();
-
-    // console.log(this.state.mode);
-    // this.setState({
-    //   mode: document.querySelector('.ListView').dataset.mode,
-    // });
-    if (this.state.mode) {
-      this.styleGeoJson(this.geoJsonLayer, this.state.mode);
-    }
-
+    this.updateMapStyles();
+    setTimeout(() => this.throttle = false, this.state.api.throttleTime);
   }
 
   render() {
-    const { error, isLoaded, items, mode} = this.state;
-    const { modeId } = this.props;
-    // console.log(modeId);
-
+    const { error, isLoaded } = this.state;
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
@@ -191,6 +174,7 @@ export default class Map extends React.Component {
     } else {
       const position = [30, 0];
       const zoom = 2;
+      const timestamp = Date.now();
 
       return (
         <MapContainer center={position} zoom={zoom} zoomControl={false}>
@@ -205,66 +189,17 @@ export default class Map extends React.Component {
           <GeoJSON
             data={worldData.features}
             onEachFeature={this.onEachFeature.bind(this)}
-            // style={dafaultGeoJSONStyle}
-            style={this.styleGeoJson.bind(this, mode)}
-            ref={this.geoJsonLayer}
+            key={timestamp}
           />
 
-          {items.sort((a, b) => b[modeId] - a[modeId]).map(item => (
-            <Circle
-              key={item.country}
-              center={[item.countryInfo.lat, item.countryInfo.long]}
-              radius={200 * Math.sqrt(item.cases)}
-              stroke={false}
-              pathOptions={{ fillColor: '#990000', fillOpacity: 0.9 }}
-              eventHandlers={{
-                click: (e) => {
-                  this.setState({
-                    activeCircle: item,
-                  });
-                  this.map.flyTo(e.latlng);
-                },
-              }}
-             
-            >
-               {/* <Tooltip> <div>{item.country}</div> <div>Cases: {item.cases}</div> </Tooltip> */}
-               </Circle>
-          ))}
-
-          {this.state.activeCircle && (<Popup position={[this.state.activeCircle.countryInfo.lat, this.state.activeCircle.countryInfo.long]} onClose={() => {
-            // console.log(this.state.activeCircle);
-            this.setState({
-              activeCircle: null,
-            });
-          }}>
-            <div className='info_pannel'>
-              <div className="info_pannel_country">{this.state.activeCircle.country}</div>
-              <hr />
-              <div className="info_pannel_content">
-                <p>Total cases: {this.state.activeCircle.cases}</p>
-                <p>Total deaths: {this.state.activeCircle.deaths}</p>
-                <p>Total recovered: {this.state.activeCircle.recovered}</p>
-                {/* <p>Today cases: {this.state.activeCircle.todayCases}</p>
-                <p>Today deaths: {this.state.activeCircle.todayDeaths}</p>
-                <p>Today recovered: {this.state.activeCircle.todayRecovered}</p> */}
-              </div>
-            </div>
-          </Popup>
-          )}
           <MapConsumer>
             {(map) => {
               this.map = map;
               return null;
             }}
           </MapConsumer>
-          {/* <AppContext.Consumer>
-            {value => console.log(value)}
-          </AppContext.Consumer> */}
-
         </MapContainer>
-
       );
-
     }
   }
 }
