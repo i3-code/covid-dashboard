@@ -8,17 +8,17 @@ import { countryNames } from '../../../data/countries.js';
 // import WorldData from 'geojson-world-map';
 // import { AppContext } from '../../../Context';
 
-const dafaultGeoJSONStyle = {
-  color: 'white',
-  weight: 0,
-  fillColor: '',
-  fillOpacity: 0,
-}
+// const dafaultGeoJSONStyle = {
+//   color: 'white',
+//   weight: 0,
+//   fillColor: '',
+//   fillOpacity: 0,
+// }
 
 const highlightGeoJSONStyle = {
-  color: 'gray',
-  weight: 0.2,
-  dashArray: '',
+  color: 'white',
+  weight: 1,
+  dashArray: '1',
   fillOpacity: 0.7
 }
 
@@ -31,8 +31,68 @@ export default class Map extends React.Component {
       isLoaded: false,
       items: [],
       activeCircle: null,
+      mode: 'cases',
     };
+
+    // this.mode = document.querySelector('.ListView').dataset;
+    // console.log(props);
+    this.geoJsonLayer = React.createRef();
   }
+
+  getColor(mode, d) {
+    if (mode === 'cases') {
+      return d > 1000000  ? '#e60000' :
+      d > 100000  ? '#ff1a1a' :
+      d > 10000  ? '#ff4d4d' :
+      d > 1000   ? '#ff6666' :
+      d > 100   ? '#ff9999' :
+      d > 10   ? '#ffcccc' :
+                 '#ffe6e6';
+    }
+
+    if (mode === 'deaths') {
+      return d > 10000000  ? '#1a1a1a' :
+      d > 1000000  ? '#333333' :
+      d > 100000  ? '#4d4d4d' :
+      d > 10000   ? '#666666' :
+      d > 1000   ? '#808080' :
+      d > 100   ? '#999999' :
+                 '#bfbfbf';
+    }
+
+    if (mode === 'recovered') {
+      return d > 10000000  ? '#2d862d' :
+      d > 1000000  ? '#39ac39' :
+      d > 100000  ? '#53c653' :
+      d > 10000   ? '#79d279' :
+      d > 1000   ? '#8cd98c' :
+      d > 100   ? '#b3e6b3' :
+                 '#c6ecc6';
+    }
+
+  }
+
+  styleGeoJson(curMode, feature) {
+    // console.log(feature);
+    const { items } = this.state;
+    // const sortIndex = this.state.api.sortIndex;
+    // const sort = this.state.api.sort;
+
+    for (const item of items) {
+      if (item.countryInfo.iso3 === feature.id) {
+
+        return {
+            fillColor: this.getColor(curMode, item[curMode]),
+            weight: 0,
+            opacity: 1,
+            color: 'white',
+            dashArray: '',
+            fillOpacity: 0.8
+        };
+      }
+    }
+}
+
 
   highlightFeature(e) {
     const layer = e.target;
@@ -53,11 +113,18 @@ export default class Map extends React.Component {
     // layer.feature.properties.name
   }
 
+  resetHighlight(e) {
+    const layer = e.target;
+    // console.log(this.geoJsonLayer.current);
+    this.geoJsonLayer.current.resetStyle(layer);
+  }
+
   moveMapToCountry() {
     const country = this.state.api.country;
     if (country) {
       for (const item of countryNames) {
         if (country === item.name) {
+          // this.map.flyTo([item.lat, item.long], 5)
           this.map.panTo([item.lat, item.long]);
           break;
         }
@@ -65,10 +132,6 @@ export default class Map extends React.Component {
     }
   }
 
-  resetHighlight(e) {
-    const layer = e.target;
-    layer.setStyle(dafaultGeoJSONStyle);
-  }
 
   clickToFeature(e) {
     const country = this.state.api.countryName(e.target.feature.properties.name);
@@ -88,10 +151,15 @@ export default class Map extends React.Component {
 
   fetchData() {
     this.state.api.fetch(this, 'countries', false);
+    
   }
 
   componentDidMount() {
     this.fetchData();
+
+    this.setState({
+      mode: document.querySelector('.ListView').dataset.mode,
+    });
   }
 
   componentDidUpdate() {
@@ -100,11 +168,22 @@ export default class Map extends React.Component {
     this.fetchData();
     setTimeout(() => this.throttle = false, this.state.api.throttleTime);
     this.moveMapToCountry();
+
+    // console.log(this.state.mode);
+    // this.setState({
+    //   mode: document.querySelector('.ListView').dataset.mode,
+    // });
+    if (this.state.mode) {
+      this.styleGeoJson(this.geoJsonLayer, this.state.mode);
+    }
+
   }
 
   render() {
-    const { error, isLoaded, items } = this.state;
+    const { error, isLoaded, items, mode} = this.state;
     const { modeId } = this.props;
+    // console.log(modeId);
+
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
@@ -123,12 +202,12 @@ export default class Map extends React.Component {
           />
           <ZoomControl position='bottomleft' />
 
-
           <GeoJSON
-          // worldData.features
             data={worldData.features}
             onEachFeature={this.onEachFeature.bind(this)}
-            style={dafaultGeoJSONStyle}
+            // style={dafaultGeoJSONStyle}
+            style={this.styleGeoJson.bind(this, mode)}
+            ref={this.geoJsonLayer}
           />
 
           {items.sort((a, b) => b[modeId] - a[modeId]).map(item => (

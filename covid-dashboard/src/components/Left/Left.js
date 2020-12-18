@@ -31,6 +31,7 @@ export default class Left extends React.Component {
   render() {
     const changeMode = this.changeMode.bind(this)
     const modeName = this.generateModeName();
+
     return (
       <div className="Left">
         <CountryList api={this.props.api} />
