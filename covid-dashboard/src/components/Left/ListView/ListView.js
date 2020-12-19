@@ -19,5 +19,3 @@ export default class ListView extends React.Component {
             );
     }
 }
-
-// data-mode={(modeName.split(' ')[1]).toLowerCase()}
