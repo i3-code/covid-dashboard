@@ -1,7 +1,9 @@
 import React from 'react';
-import { MapContainer, MapConsumer, TileLayer, ZoomControl, GeoJSON } from 'react-leaflet';
+import { useEffect } from "react";
+import L from "leaflet";
+import { MapContainer, MapConsumer, TileLayer, ZoomControl, GeoJSON, useMap } from 'react-leaflet';
 import './Map.css';
-
+// import Control from "react-leaflet-control";
 import * as d3 from 'd3';
 
 import worldData from '../../../data/countries.json';
@@ -14,6 +16,54 @@ const highlightGeoJSONStyle = {
   dashArray: '1',
   fillOpacity: 0.75
 }
+
+const Legend = (api) => {
+  // console.log(api);
+  const map = useMap()
+
+  useEffect(() => {
+    const legend = L.control({ position: 'bottomleft' });
+    legend.onAdd = () => {
+      const div = L.DomUtil.create('div', 'info legend');
+
+      // const colors = [d3.schemeReds[5], d3.schemeGreys[5], d3.schemeGreens[5]]
+      const colors = d3.schemeReds[5];
+      console.log(colors);
+      // const color = d3.scaleOrdinal(colors[api.sortIndex]);
+
+      const grades = [0, 1000000, 2500000, 5000000, 10000000]
+      let labels = [];
+      let from;
+      let to;
+
+      for (let i = 0; i < grades.length; i++) {
+        from = grades[i];
+        to = grades[i + 1];
+
+        console.log(colors[i]);
+
+        labels.push(
+          '<div class="legend_item"> <i style="background:' + 
+          //  + вот сюда как-то добавить изменение цвета???
+          colors[i] + '"></i> ' +
+          from +
+          (to ? "&ndash;" + to : "+") + '</div>'
+        );
+      }
+
+      div.innerHTML = labels.join("<br>");
+      return div;
+    };
+    
+    legend.addTo(map);
+    
+    // почему-то исходно добавляет две легенды, поэтому нужна эта штука
+    return () => legend.remove();
+  });
+
+  return null;
+}
+
 
 export default class Map extends React.Component {
   constructor(props) {
@@ -30,47 +80,90 @@ export default class Map extends React.Component {
 
   updateMapStyles() {
     if (!this.state.items.length) return;
-    const colors = [d3.schemeReds[9], d3.schemeGreys[9], d3.schemeGreens[9]]
+    const colors = [d3.schemeReds[5], d3.schemeGreys[5], d3.schemeGreens[5]]
     const color = d3.scaleOrdinal(colors[this.state.api.sortIndex]);
     const sort = this.state.api.chooseSort();
     const format = this.state.api.formatCounter;
     const maxNumber = format(this.state.items[0][sort], this.state.items[0]['population'], false);
+
     this.state.items.reverse().forEach((item, index) => {
       const id = item.countryInfo.iso3;
       const value = format(item[sort], item.population, false);
       const percent = parseFloat((value / maxNumber).toFixed(2));
       this.layerColors[id] = color(percent);
     });
+
   }
 
-   /*
+  /*
+ getCountryColor(id) {
+   if (!this.state.items.length) return '';
+   const colorGradations = 9;
+   const colors = [d3.schemeReds[colorGradations], d3.schemeGreys[colorGradations], d3.schemeGreens[colorGradations]];
+   const color = d3.scaleOrdinal(colors[this.state.api.sortIndex]);
+
+   const sort = this.state.api.sort[this.state.api.sortIndex];
+   const format = this.state.api.formatCounter;
+   const maxNumber = format(this.state.items[0][sort], this.state.items[0]['population'], false);
+
+   console.log(this.state.items[0]);
+   for (const item of this.state.items.reverse()) {
+     if (item.countryInfo.iso3 === id) {
+         const value = format(item[sort], item.population, false);
+         const percent = parseFloat((value / maxNumber).toFixed(2));
+         return color(percent);
+     }
+   }
+   return '';
+ }
+ */
+
+  // addLegend() {
+  //   console.log(this.map && this.map.leafletElement);
+
+  //   const legend = L.control({ position: "bottomright" });
+  //   console.log(legend);
+
+  //   legend.onAdd = () => {
+  //     const div = L.DomUtil.create('div', 'info legend');
+  //     const grades = [0, 100, 1000, 10000, 100000, 1000000];
+  //     let labels = [];
+  //     let from;
+  //     let to;
+
+  //     for (let i = 0; i < grades.length; i++) {
+  //       from = grades[i];
+  //       to = grades[i + 1];
+
+  //       labels.push(
+  //         '<i style="background: red"' +
+  //         // getColor(from + 1) +
+  //         '"></i> ' +
+  //         from +
+  //         (to ? "&ndash;" + to : "+")
+  //       );
+  //     }
+
+  //     div.innerHTML = labels.join("<br>");
+
+  //     return div;
+  //   };
+
+  //   // legend.addTo.bind(this.map.getBounds());
+  //   // this.map.addControl(legend);
+  //   // console.log('wow');
+
+  //   if (this.map) {
+  //     legend.addTo(this.map);
+  //   }
+
+  // }
+
   getCountryColor(id) {
     if (!this.state.items.length) return '';
-    const colorGradations = 9;
-    const colors = [d3.schemeReds[colorGradations], d3.schemeGreys[colorGradations], d3.schemeGreens[colorGradations]];
-    const color = d3.scaleOrdinal(colors[this.state.api.sortIndex]);
-
-    const sort = this.state.api.sort[this.state.api.sortIndex];
-    const format = this.state.api.formatCounter;
-    const maxNumber = format(this.state.items[0][sort], this.state.items[0]['population'], false);
-
-    console.log(this.state.items[0]);
     for (const item of this.state.items.reverse()) {
       if (item.countryInfo.iso3 === id) {
-          const value = format(item[sort], item.population, false);
-          const percent = parseFloat((value / maxNumber).toFixed(2));
-          return color(percent);
-      }
-    }
-    return '';
-  }
-  */
-
-  getCountryColor(id) {
-    if (!this.state.items.length) return '';
-    for (const item of this.state.items.reverse()) {
-      if (item.countryInfo.iso3 === id) {
-          return this.layerColors[id];
+        return this.layerColors[id];
       }
     }
     return '';
@@ -90,24 +183,23 @@ export default class Map extends React.Component {
     return style;
   }
 
-
   highlightFeature(e) {
     const layer = e.target;
     // console.log(layer.feature);
+    // this.api.state.sort[this.api.state.sortIndex];
     layer.setStyle(highlightGeoJSONStyle);
     const { items } = this.state;
     for (const item of items) {
       if (item.countryInfo.iso3 === layer.feature.id) {
-        layer.bindTooltip(`<div class=""><h5>${item.country}</h5> <p>Cases: ${item.cases}</p></div>`, 
-        {
-          direction: 'bottom',
-          sticky: true,
-          className: 'leaflet-tooltip-own',
-        }).openTooltip();
+        layer.bindTooltip(`<div class=""><h5>${item.country}</h5> <p>Cases: ${item.cases}</p></div>`,
+          {
+            direction: 'bottom',
+            sticky: true,
+            className: 'leaflet-tooltip-own',
+          }).openTooltip();
         break;
       }
     }
-    // layer.feature.properties.name
   }
 
   resetHighlight(e) {
@@ -129,9 +221,8 @@ export default class Map extends React.Component {
     }
   }
 
-
   clickToFeature(e) {
-    const country = this.state.api.countryName(e.target.feature.properties.name);
+    const country = this.state.api.countryName(e.target.feature.properties.name)
     const sameCountry = (this.state.api.country === country);
     const newCountry = (sameCountry) ? '' : country;
     this.state.api.toggleApiState('country', newCountry);
@@ -177,6 +268,7 @@ export default class Map extends React.Component {
       const timestamp = Date.now();
 
       return (
+        // ref={this.map}
         <MapContainer center={position} zoom={zoom} zoomControl={false}>
           <TileLayer
             url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
@@ -184,22 +276,26 @@ export default class Map extends React.Component {
             noWrap="true"
             bounds={[[-90, -180], [90, 180]]}
           />
-          <ZoomControl position='bottomleft' />
+          <ZoomControl position='topright' />
 
           <GeoJSON
             data={worldData.features}
             onEachFeature={this.onEachFeature.bind(this)}
             key={timestamp}
           />
-
+          
+          <Legend api={this.state.api} />
+            
           <MapConsumer>
             {(map) => {
               this.map = map;
               return null;
             }}
           </MapConsumer>
+
         </MapContainer>
       );
     }
   }
 }
+

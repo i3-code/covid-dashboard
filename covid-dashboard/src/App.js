@@ -7,7 +7,6 @@ import Left from './components/Left/Left';
 import Center from './components/Center/Center';
 import Right from './components/Right/Right';
 import Bottom from './components/Bottom/Bottom';
-
 import { countryNames } from './data/countries.js';
 
 import { AppContext } from './Context';
