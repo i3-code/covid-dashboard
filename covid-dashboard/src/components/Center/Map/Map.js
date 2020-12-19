@@ -10,14 +10,8 @@ import worldData from '../../../data/countries.json';
 import { countryNames } from '../../../data/countries.js';
 
 const casesColors = ['#fee5d9','#fcae91','#fb6a4a','#de2d26','#a50f15'];
-const  deathsColors= ['#eff3ff','#bdd7e7','#6baed6','#3182bd','#08519c'];
+const deathsColors= ['#eff3ff','#bdd7e7','#6baed6','#3182bd','#08519c'];
 const recoveredColors = ['#edf8e9','#bae4b3','#74c476','#31a354','#006d2c'];
-
-const highlightGeoJSONStyle = {
-  weight: 1,
-  dashArray: 1,
-  fillOpacity: 0.8,
-}
 
 function Legend(props) {
   const map = useMap();
@@ -84,7 +78,6 @@ export default class Map extends React.Component {
     };
   }
 
-
   highlightFeature(e) {
     const layer = e.target;
     const { items } = this.state;
@@ -93,7 +86,7 @@ export default class Map extends React.Component {
     const sort = this.state.api.sort[this.state.api.sortIndex];
     const itemText = `${prefix} ${sort} ${postfix}`;
 
-    layer.setStyle(highlightGeoJSONStyle);
+    layer.setStyle({ weight: 1, dashArray: 1, fillOpacity: 0.8 });
     for (const item of items) {
       if (item.countryInfo.iso3 === layer.feature.id) {
         const value = this.countryData[item.countryInfo.iso3].toLocaleString();
@@ -101,7 +94,7 @@ export default class Map extends React.Component {
           `<div>
               <h5>${item.country}</h5>
               <p>${itemText}: ${value}</p>
-          </div>`,
+           </div>`,
           {
             direction: 'bottom',
             sticky: true,
