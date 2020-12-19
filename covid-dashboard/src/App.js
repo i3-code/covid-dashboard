@@ -1,7 +1,6 @@
 import './App.css';
 import React from 'react';
 
-import Api from './api/api';
 import Header from './components/Header/Header';
 import Left from './components/Left/Left';
 import Center from './components/Center/Center';
@@ -30,6 +29,45 @@ export default class App extends React.Component {
     }
   }
 
+  fetchData(query, resultCallBack, errorCallBack) {
+    const mainURL = 'https://disease.sh/v3/covid-19/';
+    const requestOptions = {
+      method: 'GET',
+      redirect: 'follow',
+    };
+    const url = `${mainURL}${query}&allowNull=false`;
+    fetch(url, requestOptions)
+    .then(response => response.json())
+    .then(result => {
+      resultCallBack(result);
+    })
+    .catch(error => errorCallBack(error));
+  }
+
+  fetchApi(child, url = '', countryFilter = true) {
+    const sort = this.state.api.sort[this.state.api.sortIndex];
+    const prefix = (url) ? `${url}` : '';
+    const country = (this.state.api.country && countryFilter) ? `/${this.state.api.country}` : '';
+    const postfix = (url || country) ? '?' : '';
+    const query = `${prefix}${country}${postfix}sort=${sort}`;
+    
+    const resultCallBack = (result) => {
+      const newState = {...child.state};
+      newState.isLoaded = true;
+      newState.items = result;
+      child.setState(newState);
+    };
+
+    const errorCallBack = (error) => {
+      const newState = {...child.state};
+      newState.isLoaded = true;
+      newState.error = error;
+      child.setState(newState);
+    };
+
+    this.fetchData(query, resultCallBack.bind(this), errorCallBack.bind(this));
+  }
+
   countryName(country) {
     for (const item of countryNames) {
       if (!item.possibleNames) item.possibleNames = [];
@@ -56,30 +94,6 @@ export default class App extends React.Component {
     const newState = {...this.state};
     newState.api[id] = (country) ? this.countryName(value) : value;
     this.setState(newState);
-  }
-
-  async fetchApi(child, url = '', countryFilter = true) {
-    const sort = this.state.api.sort[this.state.api.sortIndex];
-    const prefix = (url) ? `${url}` : '';
-    const country = (this.state.api.country && countryFilter) ? `/${this.state.api.country}` : '';
-    const postfix = (url || country) ? '?' : '';
-    const query = `${prefix}${country}${postfix}sort=${sort}`;
-    
-    const resultCallBack = (result) => {
-      const newState = {...child.state};
-      newState.isLoaded = true;
-      newState.items = result;
-      child.setState(newState);
-    };
-
-    const errorCallBack = (error) => {
-      const newState = {...child.state};
-      newState.isLoaded = true;
-      newState.error = error;
-      child.setState(newState);
-    };
-
-    new Api(query, resultCallBack.bind(this), errorCallBack.bind(this));
   }
 
   render() {

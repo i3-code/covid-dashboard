@@ -89,8 +89,7 @@ export default class Map extends React.Component {
     this.state.items.reverse().forEach((item, index) => {
       const id = item.countryInfo.iso3;
       const value = format(item[sort], item.population, false);
-      const percent = parseFloat((value / maxNumber).toFixed(2));
-      this.layerColors[id] = color(percent);
+      this.layerColors[id] = color(value);
     });
 
   }
@@ -161,7 +160,7 @@ export default class Map extends React.Component {
 
   getCountryColor(id) {
     if (!this.state.items.length) return '';
-    for (const item of this.state.items.reverse()) {
+    for (const item of this.state.items) {
       if (item.countryInfo.iso3 === id) {
         return this.layerColors[id];
       }
