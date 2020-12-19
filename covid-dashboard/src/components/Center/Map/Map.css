@@ -1,3 +1,8 @@
+.leaflet-container {
+    background:#222222;
+    outline: 0;
+}
+
 .leaflet-popup-content-wrapper, .leaflet-popup-tip {
     background: #404040;
 }
@@ -78,6 +83,7 @@ hr {
     line-height: 18px;
     background-color: #404040;
     color: white;
+    opacity: 0.75;
 }
 
 .legend i {
