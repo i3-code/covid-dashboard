@@ -68,6 +68,14 @@ export default class App extends React.Component {
     this.fetchData(query, resultCallBack.bind(this), errorCallBack.bind(this));
   }
 
+  toggleApiState(id, value) {
+    if(!id) return false;
+    const country = (id === 'country');
+    const newState = {...this.state};
+    newState.api[id] = (country) ? this.countryName(value) : value;
+    this.setState(newState);
+  }
+
   countryName(country) {
     for (const item of countryNames) {
       if (!item.possibleNames) item.possibleNames = [];
@@ -83,17 +91,10 @@ export default class App extends React.Component {
     return `${prefix}${postfix}`;
   }
 
-  formatCounter(counter = 0, population = 100000, locale = true) {
-    const count = (this.state.api.per100k) ? Math.round(counter / (population / 100000)) : counter;
-    return (locale) ? count.toLocaleString() : count;
-  }
-
-  toggleApiState(id, value) {
-    if(!id) return false;
-    const country = (id === 'country');
-    const newState = {...this.state};
-    newState.api[id] = (country) ? this.countryName(value) : value;
-    this.setState(newState);
+  formatCounter(counter = 0, population = 100000) {
+    let count = (this.state.api.per100k) ? Math.round(counter / (population / 100000)) : counter;
+    if (count === Infinity || isNaN(count)) count = 0;
+    return count;
   }
 
   render() {

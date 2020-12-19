@@ -38,11 +38,11 @@ export default class Table extends React.Component {
     } else {
       const population = items.population;
       let cases = (this.state.api.today) ? items.todayCases : items.cases;
-      cases = this.state.api.formatCounter(cases, population);
+      cases = this.state.api.formatCounter(cases, population).toLocaleString();
       let deaths = (this.state.api.today) ? items.todayDeaths : items.deaths;
-      deaths = this.state.api.formatCounter(deaths, population);
+      deaths = this.state.api.formatCounter(deaths, population).toLocaleString();
       let recovered = (this.state.api.today) ? items.todayRecovered : items.recovered;
-      recovered = this.state.api.formatCounter(recovered, population);
+      recovered = this.state.api.formatCounter(recovered, population).toLocaleString();
       return (
         <AppContext.Consumer>
           {context => {

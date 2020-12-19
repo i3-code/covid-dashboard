@@ -41,7 +41,7 @@ export default class CountryList extends React.Component {
         <ul className="CountryList">
           {items.sort((a, b) => format(b[sort], b.population) - format(a[sort], a.population)).map(item => {
             const possibleNames = item.possibleNames || [];
-            const count = format(item[sort], item.population);
+            const count = format(item[sort], item.population).toLocaleString();
             return (
             <Country count={count} name={item.country} possibleNames={possibleNames} flag={item.countryInfo.flag} key={item.country} coords={[item.countryInfo.lat, item.countryInfo.long]} />
           )})}
