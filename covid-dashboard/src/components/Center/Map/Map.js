@@ -19,38 +19,26 @@ const highlightGeoJSONStyle = {
   fillOpacity: 0.8,
 }
 
-
-
 function Legend(props) {
+  const map = useMap();
   const api = props.api;
   const countryData = props.countryData;
   const max = Math.max(...Object.values(countryData));
-  console.log(max);
-  const map = useMap();
-  
-  // const colors = [d3.schemeReds[5], d3.schemeBlues[5], d3.schemeGreens[5]];
   const colors = [casesColors, deathsColors, recoveredColors];
   const countryColors = colors[api.sortIndex];
-  const steps = [];
-  for (let i = countryColors.length; i > 0 ; i -= 1) steps.push(Math.round(max / i));
+  const steps = new Array(countryColors.length).fill().map((_, index) => Math.round(max / (index + 1)));
 
   useEffect(() => {
     const legend = L.control({ position: 'bottomleft' });
     legend.onAdd = () => {
-      const div = L.DomUtil.create('div', 'info legend');
-      let labels = [];
-      for (let i = 0; i < steps.length; i++) {
-        labels.push(
-          `<div  class="legend_item">
-            <i style="background: ${countryColors[i]}"></i><span>&lt; ${steps[i]}</span>
-          </div>`);
-      }
-      div.innerHTML = labels.join("<br>");
-      return div;
+      const legendDiv = L.DomUtil.create('div', 'info legend');
+      steps.forEach((item, index) => {
+        const legendLine = L.DomUtil.create('div', 'legend_item', legendDiv);
+        legendLine.innerHTML = `<i style="background: ${countryColors[index]}"></i><span>&lt; ${item}</span>`;
+      });
+      return legendDiv;
     };
-    
     legend.addTo(map);
-    
     return () => legend.remove();
   }, [map, countryColors, steps]);
   return null;
@@ -78,7 +66,6 @@ export default class Map extends React.Component {
       this.countryData[item.countryInfo.iso3] = value;
       data.push(value);
     })
-    // const colors = [d3.schemeReds[5], d3.schemeBlues[5], d3.schemeGreens[5]];
     const colors = [casesColors, deathsColors, recoveredColors];
     this.countryColors = d3.scaleQuantile().domain(data).range(colors[this.state.api.sortIndex]);
   }
