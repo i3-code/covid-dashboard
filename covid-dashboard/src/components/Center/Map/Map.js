@@ -26,7 +26,7 @@ function Legend(props) {
     const legend = L.control({ position: 'bottomleft' });
     legend.onAdd = () => {
       const legendDiv = L.DomUtil.create('div', 'info legend');
-      steps.forEach((item, index) => {
+      steps.reverse().forEach((item, index) => {
         const legendLine = L.DomUtil.create('div', 'legend_item', legendDiv);
         legendLine.innerHTML = `<i style="background: ${countryColors[index]}"></i><span>&lt; ${item}</span>`;
       });
