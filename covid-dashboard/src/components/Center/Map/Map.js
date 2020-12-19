@@ -30,16 +30,16 @@ export default class Map extends React.Component {
 
   updateMapStyles() {
     if (!this.state.items.length) return;
-    const colors = [d3.schemeReds[9], d3.schemeGreys[9], d3.schemeGreens[9]]
-    const color = d3.scaleOrdinal(colors[this.state.api.sortIndex]);
     const sort = this.state.api.chooseSort();
     const format = this.state.api.formatCounter;
-    const maxNumber = format(this.state.items[0][sort], this.state.items[0]['population'], false);
-    this.state.items.reverse().forEach((item, index) => {
+    const data = this.state.items.map((item) => format(item[sort], item.population, false));
+    const colors = [d3.schemeReds[5], d3.schemeGreys[5], d3.schemeGreens[5]];
+    const color = d3.scaleQuantile().domain(data).range(colors[this.state.api.sortIndex]);
+
+    this.state.items.forEach((item) => {
       const id = item.countryInfo.iso3;
       const value = format(item[sort], item.population, false);
-      const percent = parseFloat((value / maxNumber).toFixed(2));
-      this.layerColors[id] = color(percent);
+      this.layerColors[id] = color(value);
     });
   }
 
@@ -68,7 +68,7 @@ export default class Map extends React.Component {
 
   getCountryColor(id) {
     if (!this.state.items.length) return '';
-    for (const item of this.state.items.reverse()) {
+    for (const item of this.state.items) {
       if (item.countryInfo.iso3 === id) {
           return this.layerColors[id];
       }
