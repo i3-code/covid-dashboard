@@ -26,7 +26,7 @@ function Legend(props) {
     const legend = L.control({ position: 'bottomleft' });
     legend.onAdd = () => {
       const legendDiv = L.DomUtil.create('div', 'info legend');
-      steps.forEach((item, index) => {
+      steps.reverse().forEach((item, index) => {
         const legendLine = L.DomUtil.create('div', 'legend_item', legendDiv);
         legendLine.innerHTML = `<i style="background: ${countryColors[index]}"></i><span>&lt; ${item}</span>`;
       });
@@ -142,7 +142,7 @@ export default class Map extends React.Component {
   }
 
   fetchData() {
-    this.state.api.fetch(this, 'countries', false);
+    this.state.api.fetchCountry(this, 'countries', false);
   }
 
   componentDidMount() {
