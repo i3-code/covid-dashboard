@@ -142,7 +142,7 @@ export default class Map extends React.Component {
   }
 
   fetchData() {
-    this.state.api.fetch(this, 'countries', false);
+    this.state.api.fetchCountry(this, 'countries', false);
   }
 
   componentDidMount() {

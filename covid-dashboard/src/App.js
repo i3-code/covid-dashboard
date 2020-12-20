@@ -19,7 +19,8 @@ export default class App extends React.Component {
         sortIndex: 0,
         today: false,
         per100k: false,
-        fetch: this.fetchApi.bind(this),
+        fetchCountry: this.fetchCountry.bind(this),
+        fetchHistory: this.fetchHistory.bind(this),
         toggleApiState: this.toggleApiState.bind(this),
         chooseSort: this.chooseSort.bind(this),
         formatCounter: this.formatCounter.bind(this),
@@ -35,7 +36,7 @@ export default class App extends React.Component {
       method: 'GET',
       redirect: 'follow',
     };
-    const url = `${mainURL}${query}&allowNull=false`;
+    const url = `${mainURL}${query}`;
     fetch(url, requestOptions)
     .then(response => response.json())
     .then(result => {
@@ -44,28 +45,34 @@ export default class App extends React.Component {
     .catch(error => errorCallBack(error));
   }
 
-  fetchApi(child, url = '', countryFilter = true) {
+  resultCallBack(result) {
+    const newState = {...this.state};
+    newState.isLoaded = true;
+    newState.items = result;
+    this.setState(newState);
+  }
+
+  errorCallBack(error) {
+    const newState = {...this.state};
+    newState.isLoaded = true;
+    newState.error = error;
+    this.setState(newState);
+  }
+
+  fetchCountry(child, url = '', countryFilter = true) {
     const sort = this.state.api.sort[this.state.api.sortIndex];
     const prefix = (url) ? `${url}` : '';
     const country = (this.state.api.country && countryFilter) ? `/${this.state.api.country}` : '';
     const postfix = (url || country) ? '?' : '';
-    const query = `${prefix}${country}${postfix}sort=${sort}`;
-    
-    const resultCallBack = (result) => {
-      const newState = {...child.state};
-      newState.isLoaded = true;
-      newState.items = result;
-      child.setState(newState);
-    };
+    const query = `${prefix}${country}${postfix}sort=${sort}&allowNull=false`;
+    this.fetchData(query, this.resultCallBack.bind(child), this.errorCallBack.bind(child));
+  }
 
-    const errorCallBack = (error) => {
-      const newState = {...child.state};
-      newState.isLoaded = true;
-      newState.error = error;
-      child.setState(newState);
-    };
-
-    this.fetchData(query, resultCallBack.bind(this), errorCallBack.bind(this));
+  fetchHistory(child, url = '', countryFilter = true) {
+    const prefix = (url) ? `${url}` : '';
+    const country = (this.state.api.country && countryFilter) ? `/${this.state.api.country}` : '/all';
+    const query = `${prefix}${country}?lastdays=all`;
+    this.fetchData(query, this.resultCallBack.bind(child), this.errorCallBack.bind(child));
   }
 
   toggleApiState(id, value) {

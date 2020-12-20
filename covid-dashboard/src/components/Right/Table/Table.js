@@ -15,7 +15,7 @@ export default class Table extends React.Component {
 
   fetchData() {
     const page = (this.state.api.country) ? 'countries' : 'all';
-    this.state.api.fetch(this, page);
+    this.state.api.fetchCountry(this, page);
   }
 
   componentDidMount() {
