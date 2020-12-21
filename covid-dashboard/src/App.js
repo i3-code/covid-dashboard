@@ -16,6 +16,7 @@ export default class App extends React.Component {
     this.state = {
       api: {
         country: '',
+        filter: '',
         sort: ['cases', 'deaths', 'recovered'],
         sortIndex: 0,
         today: false,

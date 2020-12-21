@@ -37,9 +37,12 @@ export default class CountryList extends React.Component {
     } else if (!isLoaded) {
       return <div>Loading...</div>;
     } else {
+      const regExp = new RegExp(this.state.api.filter, 'ig');
       return (
           <ul className="CountryList">
-          {items.sort((a, b) => format(b[sort], b.population) - format(a[sort], a.population)).map(item => {
+          {items.filter((a) => a.country.search(regExp) >= 0)
+          .sort((a, b) => format(b[sort], b.population) - format(a[sort], a.population))
+          .map(item => {
             const possibleNames = item.possibleNames || [];
             const count = format(item[sort], item.population).toLocaleString();
             return (
