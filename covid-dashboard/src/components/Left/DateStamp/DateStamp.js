@@ -1,4 +1,4 @@
-import './DateStamp.css';
+import './DateStamp.scss';
 
 export default function DateStamp() {
     const date = new Date().toDateString();

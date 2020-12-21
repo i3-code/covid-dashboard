@@ -1,11 +1,12 @@
-import './App.css';
+import './App.scss';
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import Header from './components/Header/Header';
 import Left from './components/Left/Left';
 import Center from './components/Center/Center';
 import Right from './components/Right/Right';
-import Bottom from './components/Bottom/Bottom';
+import Footer from './components/Footer/Footer';
 import { countryNames } from './data/countries.js';
 
 import { AppContext } from './Context';
@@ -25,9 +26,15 @@ export default class App extends React.Component {
         chooseSort: this.chooseSort.bind(this),
         formatCounter: this.formatCounter.bind(this),
         countryName: this.countryName.bind(this),
+        toggleFullScreen: this.toggleFullScreen.bind(this),
         throttleTime: 100,
       }
     }
+  }
+
+  toggleFullScreen(e) {
+    const parentComponent = ReactDOM.findDOMNode(e.target).parentNode;
+    parentComponent.classList.toggle('fullscreen');
   }
 
   fetchData(query, resultCallBack, errorCallBack) {
@@ -112,7 +119,7 @@ export default class App extends React.Component {
           <Left api={this.state.api} />
           <Center api={this.state.api} />
           <Right api={this.state.api} />
-          <Bottom api={this.state.api} />
+          <Footer />
         </div>
       </AppContext.Provider>
     );

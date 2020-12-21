@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AAAA,AAAA,mBAAmB,CAAC;EAChB,SAAS,EAAE,KAAK;EAChB,UAAU,EAAE,KAAK;EAEjB,gBAAgB,EAAE,OAAO;EACzB,MAAM,EAAE,iBAAiB;CAC5B",
-    "sources": [
-        "Graph.scss"
-    ],
-    "names": [],
-    "file": "Graph.css"
-}

@@ -1,4 +1,4 @@
-import './CountryList.css';
+import './CountryList.scss';
 import React from 'react';
 import Country from './Country/Country';
 
@@ -38,7 +38,7 @@ export default class CountryList extends React.Component {
       return <div>Loading...</div>;
     } else {
       return (
-        <ul className="CountryList">
+          <ul className="CountryList">
           {items.sort((a, b) => format(b[sort], b.population) - format(a[sort], a.population)).map(item => {
             const possibleNames = item.possibleNames || [];
             const count = format(item[sort], item.population).toLocaleString();

@@ -1,7 +1,6 @@
+import './Graph.scss';
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, Brush, AreaChart, Area, ResponsiveContainer } from 'recharts';
-import './Graph.css';
-
 export default class Graph extends React.Component {
   constructor(props) {
     super(props);
@@ -58,41 +57,41 @@ export default class Graph extends React.Component {
         return shorter.format(number);
       }
       return (
-        <ResponsiveContainer width="100%" height="60%">
-          <LineChart
-            width={450}
-            height={300}
-            data={data}
-          >
-          <XAxis tick={{fontSize: 12}} dataKey='date' />
-          <YAxis tick={{fontSize: 12}} domain={['auto', 'auto']} tickFormatter={shortenNumber}/>
-          <CartesianGrid stroke='#404040' vertical={false} />
-          <Tooltip
-              wrapperStyle={{
-                borderColor: 'white',
-                boxShadow: '2px 2px 3px 0px rgb(204, 204, 204)',
-              }}
-              contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.8)' }}
-              labelStyle={{ fontWeight: 'bold', color: '#404040' }}
+        <div className="Graph component">
+          <button className="expand" onClick={this.state.api.toggleFullScreen}></button>
+          <ResponsiveContainer  className="graph-container">
+            <LineChart
+              data={data}
+            >
+            <XAxis tick={{fontSize: 12}} dataKey='date' />
+            <YAxis tick={{fontSize: 12}} domain={['auto', 'auto']} tickFormatter={shortenNumber}/>
+            <CartesianGrid stroke='#404040' vertical={false} />
+            <Tooltip
+                wrapperStyle={{
+                  borderColor: 'white',
+                  boxShadow: '2px 2px 3px 0px rgb(204, 204, 204)',
+                }}
+                contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.8)' }}
+                labelStyle={{ fontWeight: 'bold', color: '#404040' }}
+              />
+            <Line
+              type="monotone"
+              strokeWidth={5}
+              yAxisId={0}
+              key="0"
+              dataKey={sort}
+              stroke={color}
             />
-          <Line
-            type="monotone"
-            strokeWidth={5}
-            yAxisId={0}
-            key="0"
-            dataKey={sort}
-            stroke={color}
-          />
-            <Brush dataKey="date">
-             <AreaChart>
-              <CartesianGrid />
-              <YAxis hide domain={['auto', 'auto']} />
-              <Area dataKey={sort} stroke={color} fill={color} dot={false} />
-             </AreaChart>
-           </Brush>
-          </LineChart>
-        </ResponsiveContainer>
-      
+              <Brush dataKey="date">
+              <AreaChart>
+                <CartesianGrid />
+                <YAxis hide domain={['auto', 'auto']} />
+                <Area dataKey={sort} stroke={color} fill={color} dot={false} />
+              </AreaChart>
+            </Brush>
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       )
     }
 

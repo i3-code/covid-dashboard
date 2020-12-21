@@ -1,4 +1,4 @@
-.ListView {
+.Carousel {
   color: #d6d6d6;
   width: 100%;
   display: flex;
@@ -12,11 +12,8 @@
 }
 
 .btn_arrow {
-  padding: 15px 25px;
   border: 1px solid #4e5665;
   border-radius: 10px;
-  
-
   &:focus {
     outline: none;
   }
@@ -29,14 +26,15 @@
 
 .arrow_left {
   background: url('../../../assets/icons/left_arrow.svg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 50%;
-  background-color: #373d48;
+
 }
+
 .arrow_right {
-  margin-right: 10px;
   background: url('../../../assets/icons/right_arrow.svg');
+}
+
+.arrow_left, .arrow_right {
+  width: 2rem;
   background-repeat: no-repeat;
   background-position: center;
   background-size: 50%;

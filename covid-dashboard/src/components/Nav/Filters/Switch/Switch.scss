@@ -3,8 +3,7 @@
   display: inline-block;
   width:  140px;
   height: 40px;
-  // border: 1px solid #4e5665;
-
+  
   input {
     display:none;
   }
@@ -19,7 +18,6 @@
   bottom: 0;
   cursor: pointer;
   background-color: #373d48;
-  -webkit-transition: .4s;
   transition: .4s;
 
   &:before {
@@ -30,21 +28,20 @@
     top: 5px;
     left: 10px;
     background-color: white;
-    -webkit-transition: .4s;
     transition: .4s;
   }
 }
 
 input:checked + .can_toggle__switch[data-sort='0'] {
-  background-color: rgb(122, 36, 30);
+  background-color: #a50f15;
 }
 
 input:checked + .can_toggle__switch[data-sort='1'] {
-  background-color: rgb(20, 55, 131);
+  background-color: #08519c;
 }
 
 input:checked + .can_toggle__switch[data-sort='2'] {
-  background-color: rgb(17, 119, 17);
+  background-color: #006d2c;
 }
 
 input:checked + .can_toggle__switch:before {

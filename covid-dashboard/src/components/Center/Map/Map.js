@@ -1,4 +1,4 @@
-import './Map.css';
+import './Map.scss';
 import React from 'react';
 import { MapContainer, MapConsumer, TileLayer, ZoomControl, GeoJSON, useMap } from 'react-leaflet';
 import { useEffect } from "react";
