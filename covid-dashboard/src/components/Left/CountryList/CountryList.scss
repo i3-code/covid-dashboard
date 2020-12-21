@@ -1,8 +1,14 @@
 .CountryList {
-    min-height: 320px;
+    min-height: 200px;
     max-height: 34rem;
     overflow: auto;
 }
+
+@media (orientation: portrait) {
+    .CountryList {
+        max-height: 10rem;
+    }
+  }
 
 ul {
     list-style: none;
