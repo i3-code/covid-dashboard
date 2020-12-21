@@ -1,0 +1,44 @@
+.ListView {
+  color: #d6d6d6;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.mode_name {
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.btn_arrow {
+  padding: 15px 25px;
+  border: 1px solid #4e5665;
+  border-radius: 10px;
+  
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+  }
+}
+
+.arrow_left {
+  background: url('../../../assets/icons/left_arrow.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 50%;
+  background-color: #373d48;
+}
+.arrow_right {
+  margin-right: 10px;
+  background: url('../../../assets/icons/right_arrow.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 50%;
+  background-color: #373d48;
+}

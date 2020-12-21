@@ -32,9 +32,9 @@ export default class Left extends React.Component {
 
     return (
       <div className="Left">
+        <DateStamp />
         <CountryList api={this.props.api} />
         <ListView changeMode={changeMode} modeName={modeName} />
-        <DateStamp />
       </div>
     );
   }

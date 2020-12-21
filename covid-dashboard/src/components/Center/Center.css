@@ -6,4 +6,6 @@
 .Center > div {
     width: 100%;
     height: 100%;
+    background-color: #373d48;
+    border: 1px solid #4e5665;
 }
