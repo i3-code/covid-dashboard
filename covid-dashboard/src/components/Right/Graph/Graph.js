@@ -59,7 +59,7 @@ export default class Graph extends React.Component {
       return (
         <div className="Graph component">
           <button className="expand" onClick={this.state.api.toggleFullScreen}></button>
-          <div class="graph-container">
+          <div className="graph-container">
             <ResponsiveContainer width={'99%'} height={'99%'} >
               <LineChart data={data} >
               <XAxis dataKey='date' />
@@ -85,7 +85,7 @@ export default class Graph extends React.Component {
                 <AreaChart>
                   <CartesianGrid />
                   <YAxis hide domain={['auto', 'auto']} />
-                  <Area dataKey={sort} stroke={color} fill={color} dot={false} />
+                  <Area dataKey={sort} stroke={color} fill={color} dot={false}/>
                 </AreaChart>
               </Brush>
               </LineChart>
