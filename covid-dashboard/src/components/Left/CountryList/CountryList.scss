@@ -1,13 +1,7 @@
 .CountryList {
-    margin-bottom: 15px;
-    /* margin: 0 10px 15px 0; */
     min-height: 320px;
-    height: 37rem;
+    max-height: 34rem;
     overflow: auto;
-
-    background-color: #373d48;
-    border: 1px solid #4e5665;
-
 }
 
 ul {

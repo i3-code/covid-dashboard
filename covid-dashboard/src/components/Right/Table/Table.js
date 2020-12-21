@@ -1,12 +1,5 @@
-import './Table.css';
+import './Table.scss';
 import React from 'react';
-import { AppContext } from '../../../Context';
-
-import Modal from "react-modal";
-
-const root = document.getElementById("root");
-Modal.setAppElement(root);
-
 export default class Table extends React.Component {
   constructor(props) {
     super(props);
@@ -17,17 +10,6 @@ export default class Table extends React.Component {
       items: [],
       showModal: false
     };
-
-    this.handleOpenModal = this.handleOpenModal.bind(this);
-    this.handleCloseModal = this.handleCloseModal.bind(this);
-  }
-
-  handleOpenModal() {
-    this.setState({ showModal: true });
-  }
-
-  handleCloseModal() {
-    this.setState({ showModal: false });
   }
 
   fetchData() {
@@ -60,40 +42,17 @@ export default class Table extends React.Component {
       deaths = this.state.api.formatCounter(deaths, population).toLocaleString();
       let recovered = (this.state.api.today) ? items.todayRecovered : items.recovered;
       recovered = this.state.api.formatCounter(recovered, population).toLocaleString();
-      return (
-        <AppContext.Consumer>
-          {context => {
-            const country = (context.api.country) ? context.api.country : 'Global';
-            return (
-              <div className="Table">
-                <button className="expand" onClick={this.handleOpenModal}></button>
-
-                <Modal
-                  isOpen={this.state.showModal}
-                  contentLabel="onRequestClose Example"
-                  onRequestClose={this.handleCloseModal}
-                  className="Modal Table"
-                  overlayClassName="Overlay"
-                >
-                  <div className="Table_country_name">{country}:</div>
-                  <hr />
-                  <div>Cases: {cases}</div>
-                  <div>Deaths: {deaths}</div>
-                  <div>Recovered: {recovered}</div>
-
-                  <button className="expand" onClick={this.handleCloseModal}></button>
-                </Modal>
-
+      const country = (this.state.api.country) ? this.state.api.country : 'Global';
+        return (
+              <div className="Table component">
+                <button className="expand" onClick={this.state.api.toggleFullScreen}></button>
                 <div className="Table_country_name">{country}:</div>
                 <hr />
                 <div>Cases: {cases}</div>
                 <div>Deaths: {deaths}</div>
                 <div>Recovered: {recovered}</div>
               </div>
-            )
-          }}
-        </AppContext.Consumer>
-      );
+            );
     }
   }
 }

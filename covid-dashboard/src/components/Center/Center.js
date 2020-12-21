@@ -1,38 +1,14 @@
-import './Center.css';
+import './Center.scss';
+import React from 'react';
 import Map from './Map/Map';
-import React, { useState } from 'react';
-import Modal from 'react-modal';
-
-const root = document.getElementById("root");
-Modal.setAppElement(root);
+import Nav from '../Nav/Nav';
 
 export default function Center(props) {
-
-  const [modalIsOpen, setIsOpen] = useState(false);
-
-  function openModal() {
-    setIsOpen(true);
-  }
-
-  function closeModal() {
-    setIsOpen(false);
-  }
-
   return (
-    <main className="Center">
-      <button className="expand" onClick={openModal}></button>
-
-      <Modal isOpen={modalIsOpen}
-        contentLabel="onRequestClose Example"
-        onRequestClose={closeModal}
-        className="Modal Table"
-        overlayClassName="Overlay">
-
-        <Map api={props.api} />
-
-      </Modal>
-
+    <main className="Center component">
+      <button className="expand" onClick={props.api.toggleFullScreen}></button>
       <Map api={props.api} />
+      <Nav api={props.api} carousel={true} filters={true} />
     </main>
   );
 }

@@ -18,19 +18,31 @@ img {
 }
 
 .App {
+  user-select: none;
+  cursor: default;
   width: 98%;
-  /* height: 95%; */
-  height: 98vh;
   margin: auto;
   cursor: default;
   display: grid;
   grid-template-columns: 0.3fr 1fr 0.4fr;
-  grid-template-rows: 0.1fr 1fr 0.09fr;
   gap: 13px 13px;
   grid-template-areas:
     "h h h"
     "l c r"
-    'l b r';
+    "l c r"
+    "f f f";
+}
+
+.component {
+  z-index: 0;
+  background-color: #373d48;
+  border: 1px solid #4e5665;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: #d6d6d6;
 }
 
 .Header {
@@ -73,10 +85,9 @@ img {
   display: flex;
 }
 
-.Bottom {
-  grid-area: b;
+.Footer {
+  grid-area: f;
 }
-
 
 .expand {
   top: 0;
@@ -85,7 +96,7 @@ img {
   border: 1px solid #4e5665;
   border-radius: 10px;
   cursor: pointer;
-  position: absolute;
+  position: relative;
   background: url('./assets/icons/expand.svg');
   background-repeat: no-repeat;
   background-position: center;
@@ -101,23 +112,10 @@ img {
   }
 }
 
-.Modal {
-  position: absolute;
-  top: 100px;
-  left: 100px;
-  right: 100px;
-  bottom: 100px;
-  background-color: #373d48;
-  border: 2px solid #4e5665;
-  z-index: 2000;
-}
-
-.Overlay {
-  position: fixed;
+.fullscreen {
+  z-index: 1;
+  position: fixed !important;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #d6d6d6;
-  z-index: 3000;
+  height: 100vh;
 }

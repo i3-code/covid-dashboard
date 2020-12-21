@@ -1,4 +1,4 @@
-import './Filters.css';
+import './Filters.scss';
 import React from 'react';
 import Switch from './Switch/Switch';
 
@@ -26,8 +26,8 @@ export default class Filters extends React.Component {
 
     return (
       <div className="Filters">
-        <Switch name="ViewSwitch" valueOff="Total" valueOn="Today" action={changeView} sortIndex={this.state.api.sortIndex} />
-        <Switch name="TotalSwitch" valueOff="Total" valueOn="Per100K" action={changeTotal} sortIndex={this.state.api.sortIndex} />
+        <Switch name="ViewSwitch" valueOff="total" valueOn="today" action={changeView} api={this.props.api} />
+        <Switch name="TotalSwitch" valueOff="total" valueOn="per100k" action={changeTotal} api={this.props.api} />
       </div>
     );
   }
