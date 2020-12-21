@@ -1,5 +1,6 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, Brush, AreaChart, Area, ResponsiveContainer } from 'recharts';
+import './Graph.css';
 
 export default class Graph extends React.Component {
   constructor(props) {
@@ -59,12 +60,12 @@ export default class Graph extends React.Component {
       return (
         <ResponsiveContainer width="100%" height="60%">
           <LineChart
-            width={600}
+            width={450}
             height={300}
             data={data}
           >
-          <XAxis dataKey='date' />
-          <YAxis domain={['auto', 'auto']} tickFormatter={shortenNumber}/>
+          <XAxis tick={{fontSize: 12}} dataKey='date' />
+          <YAxis tick={{fontSize: 12}} domain={['auto', 'auto']} tickFormatter={shortenNumber}/>
           <CartesianGrid stroke='#404040' vertical={false} />
           <Tooltip
               wrapperStyle={{

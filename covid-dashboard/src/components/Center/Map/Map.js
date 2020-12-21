@@ -2,6 +2,7 @@ import './Map.css';
 import React from 'react';
 import { MapContainer, MapConsumer, TileLayer, ZoomControl, GeoJSON, useMap } from 'react-leaflet';
 import { useEffect } from "react";
+// import Modal from "react-modal";
 import L from "leaflet";
 
 import * as d3 from 'd3';
@@ -9,9 +10,9 @@ import * as d3 from 'd3';
 import worldData from '../../../data/countries.json';
 import { countryNames } from '../../../data/countries.js';
 
-const casesColors = ['#fee5d9','#fcae91','#fb6a4a','#de2d26','#a50f15'];
-const deathsColors= ['#eff3ff','#bdd7e7','#6baed6','#3182bd','#08519c'];
-const recoveredColors = ['#edf8e9','#bae4b3','#74c476','#31a354','#006d2c'];
+const casesColors = ['#fee5d9', '#fcae91', '#fb6a4a', '#de2d26', '#a50f15'];
+const deathsColors = ['#eff3ff', '#bdd7e7', '#6baed6', '#3182bd', '#08519c'];
+const recoveredColors = ['#edf8e9', '#bae4b3', '#74c476', '#31a354', '#006d2c'];
 
 function Legend(props) {
   const map = useMap();
@@ -38,6 +39,9 @@ function Legend(props) {
   return null;
 }
 
+// const root = document.getElementById("root");
+// Modal.setAppElement(root);
+
 export default class Map extends React.Component {
   constructor(props) {
     super(props);
@@ -46,12 +50,24 @@ export default class Map extends React.Component {
       error: null,
       isLoaded: false,
       items: [],
+      showModal: false
     };
     this.countryData = {};
+
+    // this.handleOpenModal = this.handleOpenModal.bind(this);
+    // this.handleCloseModal = this.handleCloseModal.bind(this);
   }
 
+  // handleOpenModal() {
+  //   this.setState({ showModal: true });
+  // }
+
+  // handleCloseModal() {
+  //   this.setState({ showModal: false });
+  // }
+
   generateRange() {
-    if(!this.state.items.length) return false;
+    if (!this.state.items.length) return false;
     const sort = this.state.api.chooseSort();
     const format = this.state.api.formatCounter;
     const data = [];
@@ -165,34 +181,50 @@ export default class Map extends React.Component {
     } else if (!isLoaded) {
       return <div>Loading...</div>;
     } else {
-      const position = [40, 0];
-      const zoom = 1;
+      const position = [40, 2];
+      const zoom = 2;
       const timestamp = Date.now();
 
       return (
         <MapContainer center={position} zoom={zoom} zoomControl={false}>
+          {/* <button className="expand" onClick={this.handleOpenModal}></button> */}
+
+          {/* {this.state.showModal &&
+
+            <Modal isOpen={this.state.showModal}
+              contentLabel="onRequestClose Example"
+              onRequestClose={this.handleCloseModal}
+              className="Modal Table"
+              overlayClassName="Overlay">
+
+              {this.map}
+                  
+            </Modal>
+          } */}
+
           <TileLayer
-            url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
-            maxZoom={10}
-            noWrap="true"
-            bounds={[[-90, -180], [90, 180]]}
-          />
-          <ZoomControl position='topright' />
+                url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+                maxZoom={10}
+                noWrap="true"
+                bounds={[[-90, -180], [90, 180]]}
+              />
+              <ZoomControl position='topleft' />
 
-          <GeoJSON
-            key={timestamp}
-            data={worldData.features}
-            onEachFeature={this.onEachFeature.bind(this)}
-          />
+              <GeoJSON
+                key={timestamp}
+                data={worldData.features}
+                onEachFeature={this.onEachFeature.bind(this)}
+              />
 
-          <MapConsumer>
-            {(map) => {
-              this.map = map;
-              return null;
-            }}
-          </MapConsumer>
-          <Legend api={this.state.api} countryData={this.countryData} />
+              <MapConsumer>
+                {(map) => {
+                  this.map = map;
+                  return null;
+                }}
+              </MapConsumer>
+              <Legend api={this.state.api} countryData={this.countryData} />
         </MapContainer>
+
       );
     }
   }

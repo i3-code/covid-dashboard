@@ -3,7 +3,7 @@ export default function Header() {
       <header className="Header">
           <div className="logo">
           </div>
-          <h2><center>COVID-19 Dashboard</center></h2>
+          <h2><center>COVID-19 DASHBOARD</center></h2>
       </header>
     );
 }

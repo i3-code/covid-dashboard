@@ -1,0 +1,37 @@
+.countryCounter {
+  color: #ff0000;
+}
+
+.countryName {
+  margin: 0 0.25em 0 0.5em;
+  color: #d6d6d6;
+}
+
+.countryFlag {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 16px;
+  height: 16px;
+}
+
+.country {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 0.1em;
+  cursor: pointer;
+}
+
+.country:hover, .country.selected {
+  background-color: #d6d6d6;
+}
+
+.country:hover .countryName, .country.selected .countryName {
+  color: #000000;
+}
+
+.country:hover .countryFlag, .country.selected .countryFlag {
+  border: 0.01em solid #000000;
+}
+/*# sourceMappingURL=Country.css.map */
