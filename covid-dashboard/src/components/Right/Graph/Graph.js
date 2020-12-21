@@ -60,9 +60,7 @@ export default class Graph extends React.Component {
         <div className="Graph component">
           <button className="expand" onClick={this.state.api.toggleFullScreen}></button>
           <ResponsiveContainer  className="graph-container">
-            <LineChart
-              data={data}
-            >
+            <LineChart data={data} >
             <XAxis tick={{fontSize: 12}} dataKey='date' />
             <YAxis tick={{fontSize: 12}} domain={['auto', 'auto']} tickFormatter={shortenNumber}/>
             <CartesianGrid stroke='#404040' vertical={false} />
