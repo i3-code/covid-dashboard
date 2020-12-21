@@ -33,6 +33,23 @@ img {
     "f f f";
 }
 
+@media (orientation: portrait) {
+  .App {
+    user-select: none;
+    cursor: default;
+    width: 98%;
+    margin: auto;
+    grid-template-columns: 1fr;
+    gap: 13px 13px;
+    grid-template-areas:
+      "h h h"
+      "l l l"
+      "c c c"
+      "r r r"
+      "f f f";
+  }
+}
+
 .component {
   z-index: 0;
   background-color: #373d48;
@@ -43,6 +60,7 @@ img {
   align-items: center;
   font-size: 14px;
   color: #d6d6d6;
+  position:relative;
 }
 
 .Header {
@@ -90,13 +108,13 @@ img {
 }
 
 .expand {
-  top: 0;
-  right: 0;
+  top: 0.5rem;
+  right: 0.5rem;
   padding: 10px 10px;
   border: 1px solid #4e5665;
   border-radius: 10px;
   cursor: pointer;
-  position: relative;
+  position: absolute;
   background: url('./assets/icons/expand.svg');
   background-repeat: no-repeat;
   background-position: center;
