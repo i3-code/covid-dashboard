@@ -1,5 +1,5 @@
 import React from 'react';
-import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, Brush, AreaChart, Area } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, Brush, AreaChart, Area, ResponsiveContainer } from 'recharts';
 
 export default class Graph extends React.Component {
   constructor(props) {
@@ -34,26 +34,37 @@ export default class Graph extends React.Component {
     } else if (!isLoaded) {
       return <div>Loading...</div>;
     } else {
-      const timeline = (items.country) ? items.timeline : items;
+      const nullItems = {
+        cases: {"1/22/20": 0,},
+        deaths: {"1/22/20": 0,},
+        recovered: {"1/22/20": 0,}
+      }
+      const timeline = (items.country) ? items.timeline : (items.message) ? nullItems : items;
       const sort = this.state.api.sort[this.state.api.sortIndex];
       const data = [];
-      for (const [key, value] of Object.entries(timeline[sort])) {
-        const unit = {date: key};
-        unit[sort] = value;
-        data.push(unit);
+      if (!timeline[sort]) { console.log(timeline)} else {
+        for (const [key, value] of Object.entries(timeline[sort])) {
+          const unit = {date: key};
+          unit[sort] = value;
+          data.push(unit);
+        }  
       }
 
       const colors = { cases: '#a50f15', deaths: '#08519c', recovered: '#006d2c' }
       const color = colors[sort];
+      const shortenNumber = (number) => {
+        const shorter = Intl.NumberFormat('en', { notation: 'compact' });
+        return shorter.format(number);
+      }
       return (
-        <div className='line-chart-wrapper'>
+        <ResponsiveContainer width="100%" height="60%">
           <LineChart
             width={600}
             height={300}
             data={data}
           >
           <XAxis dataKey='date' />
-          <YAxis domain={['auto', 'auto']} />
+          <YAxis domain={['auto', 'auto']} tickFormatter={shortenNumber}/>
           <CartesianGrid stroke='#404040' vertical={false} />
           <Tooltip
               wrapperStyle={{
@@ -71,15 +82,16 @@ export default class Graph extends React.Component {
             dataKey={sort}
             stroke={color}
           />
-          <Brush dataKey="date">
-            <AreaChart>
+            <Brush dataKey="date">
+             <AreaChart>
               <CartesianGrid />
               <YAxis hide domain={['auto', 'auto']} />
               <Area dataKey={sort} stroke={color} fill={color} dot={false} />
-            </AreaChart>
-          </Brush>
-        </LineChart>
-      </div>
+             </AreaChart>
+           </Brush>
+          </LineChart>
+        </ResponsiveContainer>
+      
       )
     }
 

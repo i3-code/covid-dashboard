@@ -69,7 +69,7 @@ export default class App extends React.Component {
   }
 
   fetchHistory(child, url = '', countryFilter = true) {
-    const prefix = (url) ? `${url}` : '';
+    const prefix = (url) ? url : '';
     const country = (this.state.api.country && countryFilter) ? `/${this.state.api.country}` : '/all';
     const query = `${prefix}${country}?lastdays=all`;
     this.fetchData(query, this.resultCallBack.bind(child), this.errorCallBack.bind(child));
