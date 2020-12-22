@@ -88,7 +88,6 @@ img {
   -ms-grid-row-span: 2;
   -ms-grid-column: 1;
   grid-area: l;
-  height: 82vh;
   max-height: 83vh;
   display: -ms-grid;
   display: grid;

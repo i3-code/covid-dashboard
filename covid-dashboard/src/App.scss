@@ -77,8 +77,8 @@ img {
 
 .Left {
   grid-area: l;
-  
-  height: 82vh;
+
+  // height: 82vh;
   max-height: 83vh;
   display: grid;
   grid-template-columns: 1fr;
