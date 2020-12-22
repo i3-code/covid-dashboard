@@ -1,0 +1,22 @@
+.CountryList {
+  min-height: 200px;
+  height: 100%;
+  overflow: auto;
+  font-size: 16px;
+}
+
+@media (orientation: portrait) {
+  .CountryList {
+    max-height: 10rem;
+  }
+}
+
+ul {
+  list-style: none;
+}
+
+ul, li {
+  border: 0;
+  vertical-align: baseline;
+}
+/*# sourceMappingURL=CountryList.css.map */
