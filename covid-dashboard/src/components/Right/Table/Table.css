@@ -20,6 +20,15 @@
   font-size: 28px;
 }
 
+@media (orientation: portrait), (max-width: 1366px) {
+  .Table {
+    font-size: 18px;
+  }
+  .Table_country_name {
+    font-size: 25px;
+  }
+}
+
 hr {
   border-top: 1px solid #d6d6d6;
 }

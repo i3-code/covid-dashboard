@@ -74,9 +74,14 @@ img {
   color: #d6d6d6;
 }
 
+@media (orientation: portrait), (max-width: 1366px)  {
+  .Header {
+    font-size: 25px;
+  }
+}
+
 .Left {
   grid-area: l;
-
   min-height: 82vh;
   max-height: 82vh;
   display: grid;
@@ -118,14 +123,30 @@ img {
   width: 40%;
 }  
 
-
-@media (orientation: portrait) {
+@media (orientation: portrait), (max-width: 1366px)  {
   .Center .Nav {
     width: 100%;
   }
 
   .Center .Filters {
     width: 50%;
+  }
+}
+
+@media (max-width: 768px)  {
+  .Center .Nav {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .Center .Carousel {
+    width: 60%;
+  }  
+
+  .Center .Filters {
+    margin-top: 1rem;
+    justify-content: space-between;
+    width: 60%;
   }
 }
 
@@ -188,6 +209,7 @@ img {
 
   & .graph-container {
     max-width: 30rem;
+    // max-height: 20rem;
   }
 
   &.Left {
@@ -198,5 +220,9 @@ img {
   & .Carousel {
     margin: 0 auto;
     width: 40%;
+  }
+
+  & .CountryList {
+      max-height: 35rem;
   }
 }

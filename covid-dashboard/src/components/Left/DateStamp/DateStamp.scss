@@ -1,6 +1,11 @@
 .date_content {
     font-size: 23px;
     font-weight: 600;
-    display: flex;
-    justify-content: center;
+    text-align: center;
 }
+
+@media (orientation: portrait), (max-width: 1366px)  {
+    .date_content {
+        font-size: 20px;
+    }
+  }
