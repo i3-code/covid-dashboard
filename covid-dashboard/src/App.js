@@ -122,5 +122,5 @@ export default class App extends React.Component {
         </div>
       </AppContext.Provider>
     );
-    }
+  }
 }

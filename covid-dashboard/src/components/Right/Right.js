@@ -1,4 +1,4 @@
-import './Right.scss';
+// import './Right.scss';
 import React from 'react';
 import Table from './Table/Table';
 import Nav from '../Nav/Nav';
