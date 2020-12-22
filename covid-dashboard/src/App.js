@@ -47,9 +47,7 @@ export default class App extends React.Component {
     const url = `${mainURL}${query}`;
     fetch(url, requestOptions)
     .then(response => response.json())
-    .then(result => {
-      resultCallBack(result);
-    })
+    .then(result => resultCallBack(result))
     .catch(error => errorCallBack(error));
   }
 
