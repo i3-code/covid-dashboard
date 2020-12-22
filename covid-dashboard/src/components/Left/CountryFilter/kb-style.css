@@ -17,13 +17,17 @@
 }
 
 .keyboard {
-  width: 80%;
+  background-color: #d6d6d6;
+  top: 10rem;
+  position: absolute;
+  width: 50rem;
   display: grid;
   margin: 0 auto;
   user-select: none;
   opacity: 0;
   visibility: hidden;
   transition: opacity 1s;
+  z-index: 1;
 }
 
 .keyboard-visible {
@@ -56,9 +60,9 @@
 
 .kb-key {
   margin: 0.5rem;
-  height: 3.5rem;
+  height: 3rem;
   display: flex;
-  font-size: 1.3rem;
+  font-size: 1rem;
   box-shadow: 0.2em 0.2em 0.3em;
   border: 0.01em solid;
   border-radius: 0.5em;
@@ -93,76 +97,6 @@
   align-self: flex-start;
   font-size: 0.75em;
   opacity: 0.5;
-}
-
-.copyright {
-  max-width: 20%;
-  background-color: rgba(0, 0, 0, 0.5);
-  text-align: center;
-  user-select: none;
-}
-
-.copyright-text {
-  font-size: 1rem;
-  color: transparent;
-  text-shadow: 0 0 0.03em #eeeeee, 0.12em 0.06em 0.03em #00dcdc,
-    -0.12em -0.06em 0.03em #ff3232;
-  animation: glitch 4s ease-in-out infinite alternate;
-}
-
-@keyframes glitch {
-  0%,
-  40%,
-  44%,
-  58%,
-  61%,
-  65%,
-  69%,
-  73%,
-  100% {
-    transform: skewX(0deg);
-  }
-  41% {
-    transform: skewX(10deg);
-  }
-  42% {
-    transform: skewX(-10deg);
-  }
-  59% {
-    transform: skewX(40deg) skewY(10deg);
-  }
-  60% {
-    transform: skewX(-40deg) skewY(-10deg);
-  }
-  63% {
-    transform: skewX(10deg) skewY(-5deg);
-  }
-  70% {
-    transform: skewX(-50deg) skewY(-20deg);
-  }
-  71% {
-    transform: skewX(10deg) skewY(-10deg);
-  }
-}
-
-.gear {
-  fill: currentColor;
-  height: 3rem;
-  position: absolute;
-  width: 3rem;
-  right: 0.5rem;
-  opacity: 0;
-  visibility: hidden;
-}
-
-.gear-visible {
-  opacity: 1;
-  visibility: visible;
-}
-
-svg {
-  width: 80%;
-  height: 80%;
 }
 
 @media (max-width: 1100px) {
@@ -217,8 +151,4 @@ svg {
     color: #000000;
     background-color: #ffffff;
   }
-}
-
-.gear {
-  height: 3rem;
 }

@@ -11,25 +11,22 @@ export default class CountryFilter extends React.Component {
     };
   }
 
-  onKeyUp(event) {
+  onChange(event) {
     const filter = (event.target.value.match(/[a-z.-\s]+/ig) || [''])[0];
     this.state.api.toggleApiState('filter', filter);
   }
 
-  /*
-  componentDidMount() {
-    const keyboard = new Keyboard();
-    const body = document.getElementById('keyboard-input');
-    body.addEventListener('focus', keyboard.inputEngine.bind(keyboard));
-  }
-  */
+  // componentDidMount() {
+  //   const inject = document.getElementById('keyboard-input');
+  //   new Keyboard(inject);
+  // }
 
   render() {
     return (
         <input
           id="keyboard-input"
           type="text"
-          onKeyUp={this.onKeyUp.bind(this)}
+          onChange={this.onChange.bind(this)}
           placeholder="Search.."
           title="Type in a country name"
           className="CountryFilter" />
