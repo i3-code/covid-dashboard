@@ -1,3 +1,4 @@
+import './Left.scss';
 import React from 'react';
 import CountryFilter from './CountryFilter/CountryFilter';
 import CountryList from './CountryList/CountryList';
