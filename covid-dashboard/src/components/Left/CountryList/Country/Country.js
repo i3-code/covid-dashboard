@@ -15,11 +15,9 @@ export default class Country extends React.Component {
               const newCountry = (sameCountry) ? '' : this.props.name;
               context.api.toggleApiState('country', newCountry);
               }}>
-             <span className="countryCounter">{this.props.count}</span>
+             <span className="countryFlag"><img src={this.props.flag} alt=""/></span>
+             <span className="countryCounter" data-sort={context.api.sortIndex}>{this.props.count}</span>
              <span className="countryName">{this.props.name}</span>
-             <span className="countryFlag">
-               <img src={this.props.flag} alt=""/>
-             </span>
            </li>
       )}}
     </AppContext.Consumer>
