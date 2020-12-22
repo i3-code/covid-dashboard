@@ -119,7 +119,8 @@ img {
   background-position: center;
   background-size: 50%;
   background-color: #373d48;
-  z-index: 1000;
+  z-index: 2;
+  visibility: hidden;
 
   &:hover {
       outline: none;
@@ -127,6 +128,10 @@ img {
   &:hover {
       transform: scale(1.05);
   }
+}
+
+.component:hover .expand {
+  visibility:visible;
 }
 
 .fullscreen {
