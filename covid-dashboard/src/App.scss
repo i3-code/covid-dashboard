@@ -61,6 +61,11 @@ img {
   font-size: 14px;
   color: #d6d6d6;
   position:relative;
+
+  
+  &:hover .expand {
+    visibility: visible;
+  }
 }
 
 .Header {
@@ -87,7 +92,6 @@ img {
   grid-area: r;
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
 }
 
 .Right_content {
@@ -106,10 +110,16 @@ img {
   grid-area: f;
 }
 
+.Nav {
+  display: flex;
+  align-items: center;
+}
+
 .expand {
-  top: 0.5rem;
-  right: 0.5rem;
-  padding: 10px 10px;
+  visibility: hidden;
+  top: -0.4rem;
+  right: -0.4rem;
+  padding: 8px 8px;
   border: 1px solid #4e5665;
   border-radius: 10px;
   cursor: pointer;
@@ -117,7 +127,7 @@ img {
   background: url('./assets/icons/expand.svg');
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 50%;
+  background-size: 60%;
   background-color: #373d48;
   z-index: 1000;
 
@@ -135,4 +145,14 @@ img {
   top: 0;
   left: 0;
   height: 100vh;
+
+  & .graph-container {
+    max-width: 30rem;
+  }
+  
+  & .expand {
+    top: 0;
+    right: 0;
+  }
 }
+

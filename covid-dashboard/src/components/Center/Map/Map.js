@@ -2,7 +2,6 @@ import './Map.scss';
 import React from 'react';
 import { MapContainer, MapConsumer, TileLayer, ZoomControl, GeoJSON, useMap } from 'react-leaflet';
 import { useEffect } from "react";
-// import Modal from "react-modal";
 import L from "leaflet";
 
 import * as d3 from 'd3';
@@ -39,9 +38,6 @@ function Legend(props) {
   return null;
 }
 
-// const root = document.getElementById("root");
-// Modal.setAppElement(root);
-
 export default class Map extends React.Component {
   constructor(props) {
     super(props);
@@ -53,18 +49,7 @@ export default class Map extends React.Component {
       showModal: false
     };
     this.countryData = {};
-
-    // this.handleOpenModal = this.handleOpenModal.bind(this);
-    // this.handleCloseModal = this.handleCloseModal.bind(this);
   }
-
-  // handleOpenModal() {
-  //   this.setState({ showModal: true });
-  // }
-
-  // handleCloseModal() {
-  //   this.setState({ showModal: false });
-  // }
 
   generateRange() {
     if (!this.state.items.length) return false;
@@ -187,21 +172,6 @@ export default class Map extends React.Component {
 
       return (
         <MapContainer center={position} zoom={zoom} zoomControl={false}>
-          {/* <button className="expand" onClick={this.handleOpenModal}></button> */}
-
-          {/* {this.state.showModal &&
-
-            <Modal isOpen={this.state.showModal}
-              contentLabel="onRequestClose Example"
-              onRequestClose={this.handleCloseModal}
-              className="Modal Table"
-              overlayClassName="Overlay">
-
-              {this.map}
-                  
-            </Modal>
-          } */}
-
           <TileLayer
                 url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
                 maxZoom={10}
