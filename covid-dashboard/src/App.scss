@@ -73,14 +73,17 @@ img {
   font-size: 28px;
   font-weight: 800;
   color: #d6d6d6;
-  /* -webkit-text-stroke: 0.5px #d6d6d6; */
 }
 
 .Left {
   grid-area: l;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  
+  height: 82vh;
+  max-height: 83vh;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 0.1fr 1fr 0.1fr 0.1fr;
+  align-items: baseline;
 }
 
 .Center {
@@ -95,7 +98,6 @@ img {
 }
 
 .Right_content {
-  // position: relative;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -145,14 +147,24 @@ img {
   top: 0;
   left: 0;
   height: 100vh;
-
-  & .graph-container {
-    max-width: 30rem;
-  }
   
   & .expand {
     top: 0;
     right: 0;
   }
-}
 
+  & .graph-container {
+    max-width: 30rem;
+  }
+
+  &.Left {
+    padding: 1rem;
+    max-height: 100vh;
+  }
+  
+  & .Carousel {
+    margin: 0 auto;
+    width: 50%;
+  }
+
+}

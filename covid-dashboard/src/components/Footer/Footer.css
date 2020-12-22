@@ -1,0 +1,48 @@
+.Footer {
+  background-color: #373d48;
+  border: 1px solid #4e5665;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 15px;
+  color: #d6d6d6;
+}
+
+.Footer_links {
+  margin: 0 10px 0 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.Footer_link {
+  margin-left: 10px;
+  display: inline-block;
+  text-decoration: none;
+  color: #d6d6d6;
+}
+
+.Footer_logo {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 7rem;
+}
+
+.Footer i {
+  margin-right: 10px;
+}
+/*# sourceMappingURL=Footer.css.map */

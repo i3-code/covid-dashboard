@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,KAAK,CAAC;EACJ,UAAU,EAAE,IAAI;EAChB,OAAO,EAAE,IAAI;EACb,qBAAqB,EAAE,GAAG;EAC1B,kBAAkB,EAAE,qBAAqB;EACzC,WAAW,EAAE,QAAQ;CACtB",
+    "sources": [
+        "Left.scss"
+    ],
+    "names": [],
+    "file": "Left.css"
+}
