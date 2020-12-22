@@ -7,14 +7,14 @@ export default class Keyboard {
     this.shift = false;
     this.caps = false;
     this.insert = false;
-    this.init();
+    this.init(inject);
   }
 
-  init() {
+  init(inject) {
     this.keys = KEYS;
     const kbDiv = document.createElement("div");
     kbDiv.classList.add("keyboard");
-    const main = document.querySelector(".Left");
+    const main = document.body;
     const layout = this.keys[this.layout];
     const icons = this.keys["icons"];
     const specials = this.keys["specials"];
@@ -52,6 +52,7 @@ export default class Keyboard {
       }
     }
     main.appendChild(kbDiv);
+    inject.addEventListener('focus', this.inputEngine.bind(this));
   }
 
   renderKeyboard() {
@@ -98,7 +99,6 @@ export default class Keyboard {
   }
 
   inputEngine(event, eventKey, eventCode) {
-      console.log(event);
     const keyboardDiv = document.querySelector(".keyboard");
     const inputField = document.getElementById("keyboard-input");
 
@@ -118,7 +118,7 @@ export default class Keyboard {
     const keyId = keyCode.toLowerCase();
     const key = document.getElementById(keyId);
     if (key) {
-      event.preventDefault();
+      // event.preventDefault();
       let keyChar = key.getAttribute("key");
       const keyReplace = this.keys.replaces[keyChar];
       if (keyReplace) keyChar = String.fromCharCode(keyReplace);
