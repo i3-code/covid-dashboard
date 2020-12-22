@@ -62,7 +62,6 @@ img {
   color: #d6d6d6;
   position:relative;
 
-  
   &:hover .expand {
     visibility: visible;
   }
@@ -78,44 +77,78 @@ img {
 .Left {
   grid-area: l;
 
-  // height: 82vh;
-  max-height: 83vh;
+  min-height: 82vh;
+  max-height: 82vh;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 0.1fr 1fr 0.1fr 0.1fr;
   align-items: baseline;
 }
 
+@media (orientation: portrait) {
+  .Left {
+    min-height: 0;
+  }
+}
+
+.Nav {
+  display: flex;
+  // align-items: center;
+}
+
 .Center {
   position: relative;
   grid-area: c;
+  flex-direction: column;
+  min-height: 30rem;
+}
+
+.Center .Nav {
+  justify-content: space-around;
+  padding: 5px 0;
+  border: none;
+  width: 90%;
+}
+
+.Center .Carousel {
+  width: 40%;
+}  
+
+.Center .Filters {
+  width: 40%;
+}  
+
+
+@media (orientation: portrait) {
+  .Center .Nav {
+    width: 100%;
+  }
+
+  .Center .Filters {
+    width: 50%;
+  }
 }
 
 .Right {
   grid-area: r;
   display: flex;
   flex-direction: column;
-}
+}  
 
 .Right_content {
   flex: 1;
   display: flex;
   flex-direction: column;
-}
+}  
 
 .Right_graph {
   position: relative;
   display: flex;
-}
+}  
 
 .Footer {
   grid-area: f;
-}
-
-.Nav {
-  display: flex;
-  align-items: center;
-}
+}  
 
 .expand {
   visibility: hidden;
@@ -164,7 +197,6 @@ img {
   
   & .Carousel {
     margin: 0 auto;
-    width: 50%;
+    width: 40%;
   }
-
 }

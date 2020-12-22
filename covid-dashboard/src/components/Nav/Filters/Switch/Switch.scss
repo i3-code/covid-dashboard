@@ -71,11 +71,43 @@ input:checked + .can_toggle__switch .value_on {
   display: none;
 }
 
-/* Rounded sliders */
 .can_toggle__switch.round {
   border-radius: 35px;
 }
 
 .can_toggle__switch.round:before {
   border-radius: 50%;
+}
+
+@media (orientation: portrait) {
+  .can_toggle {
+    position: relative;
+    display: inline-block;
+    width:  110px;
+    height: 30px;
+
+    input {
+      display:none;
+    }
+    
+  }
+  
+  .can_toggle__switch {
+    &:before {
+      height: 25px;
+      width: 25px;
+      top: 2px;
+      left: 5px;
+    }
+  }
+  
+  input:checked + .can_toggle__switch:before {
+    transform: translateX(75px);
+  }
+  
+  .value_on,
+  .value_off {
+    font-size: 16px;
+  }
+
 }

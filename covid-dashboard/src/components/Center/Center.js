@@ -1,4 +1,4 @@
-import './Center.scss';
+// import './Center.scss';
 import React from 'react';
 import Map from './Map/Map';
 import Nav from '../Nav/Nav';

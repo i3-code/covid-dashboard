@@ -11,9 +11,16 @@
   text-align: center;
 }
 
+@media (orientation: portrait) {
+  .mode_name {
+    font-size: 16px;
+  }
+}
+
 .btn_arrow {
   border: 1px solid #4e5665;
   border-radius: 10px;
+  
   &:focus {
     outline: none;
   }
