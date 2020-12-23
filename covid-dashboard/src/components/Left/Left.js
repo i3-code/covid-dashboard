@@ -10,16 +10,17 @@ export default class Left extends React.Component {
     super(props);
     this.state = {
       api: props.api,
+      fullscreen: false,
     }
   }
 
   render() {
     return (
       <div className="Left component">
-        <button className="expand" onClick={this.state.api.toggleFullScreen}></button>
+        <button className="expand" onClick={this.props.api.toggleFullScreen.bind(this)}></button>
         <CountryFilter api={this.props.api} />
         <CountryList api={this.props.api} />
-        <Nav api={this.props.api} carousel={true} filters={false} />
+        <Nav api={this.props.api} carousel={true} filters={this.state.fullscreen} />
         <DateStamp />
       </div>
     );
