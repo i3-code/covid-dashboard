@@ -1,6 +1,7 @@
 import './Graph.scss';
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, Brush, AreaChart, Area, ResponsiveContainer } from 'recharts';
+import Nav from '../../Nav/Nav';
 export default class Graph extends React.Component {
   constructor(props) {
     super(props);
@@ -9,6 +10,7 @@ export default class Graph extends React.Component {
       error: null,
       isLoaded: false,
       items: [],
+      fullscreen: false,
     };
   }
   
@@ -58,7 +60,7 @@ export default class Graph extends React.Component {
       }
       return (
         <div className="Graph component">
-          <button className="expand" onClick={this.state.api.toggleFullScreen}></button>
+          <button className="expand" onClick={this.props.api.toggleFullScreen.bind(this)}></button>
           <div className="graph-container">
             <ResponsiveContainer width={'99%'} height={'99%'} >
               <LineChart data={data} >
@@ -91,6 +93,7 @@ export default class Graph extends React.Component {
               </LineChart>
             </ResponsiveContainer>
           </div>
+          <Nav api={this.props.api} carousel={this.state.fullscreen} filters={this.state.fullscreen} />
         </div>
       )
     }
