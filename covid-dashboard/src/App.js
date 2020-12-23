@@ -43,13 +43,15 @@ export default class App extends React.Component {
 
   fetchData(query, resultCallBack, errorCallBack) {
     const mainURL = 'https://disease.sh/v3/covid-19/';
-    const requestOptions = {
-      method: 'GET',
-      redirect: 'follow',
-    };
     const url = `${mainURL}${query}`;
-    fetch(url, requestOptions)
-    .then(response => response.json())
+    fetch(url)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('bad');
+      } else {
+        return response.json();
+      }
+    })
     .then(result => {
       resultCallBack(result);
     })
