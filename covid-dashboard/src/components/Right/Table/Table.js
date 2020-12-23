@@ -1,5 +1,6 @@
 import './Table.scss';
 import React from 'react';
+import Nav from '../../Nav/Nav';
 export default class Table extends React.Component {
   constructor(props) {
     super(props);
@@ -8,7 +9,7 @@ export default class Table extends React.Component {
       error: null,
       isLoaded: false,
       items: [],
-      showModal: false
+      fullscreen: false,
     };
   }
 
@@ -45,12 +46,13 @@ export default class Table extends React.Component {
       const country = (this.state.api.country) ? this.state.api.country : 'Global';
         return (
               <div className="Table component">
-                <button className="expand" onClick={this.state.api.toggleFullScreen}></button>
+                <button className="expand" onClick={this.props.api.toggleFullScreen.bind(this)}></button>
                 <div className="Table_country_name">{country}:</div>
                 <hr />
                 <div>Cases: {cases}</div>
                 <div>Deaths: {deaths}</div>
                 <div>Recovered: {recovered}</div>
+                <Nav api={this.props.api} carousel={this.state.fullscreen} filters={this.state.fullscreen} />
               </div>
             );
     }

@@ -27,15 +27,18 @@ export default class App extends React.Component {
         chooseSort: this.chooseSort.bind(this),
         formatCounter: this.formatCounter.bind(this),
         countryName: this.countryName.bind(this),
-        toggleFullScreen: this.toggleFullScreen.bind(this),
+        toggleFullScreen: this.toggleFullScreen,
         throttleTime: 100,
       }
     }
   }
 
-  toggleFullScreen(e) {
-    const parentComponent = ReactDOM.findDOMNode(e.target).parentNode;
+  toggleFullScreen(event) {
+    const parentComponent = ReactDOM.findDOMNode(event.target).parentNode;
     parentComponent.classList.toggle('fullscreen');
+    const newState = {...this.state};
+    newState.fullscreen = !newState.fullscreen;
+    this.setState(newState);
   }
 
   fetchData(query, resultCallBack, errorCallBack) {
