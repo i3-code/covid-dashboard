@@ -189,6 +189,7 @@ export default class Map extends React.Component {
               <MapConsumer>
                 {(map) => {
                   this.map = map;
+                  this.map.invalidateSize();
                   return null;
                 }}
               </MapConsumer>
