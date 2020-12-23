@@ -5,6 +5,7 @@ export const badCountries = [
 'Cayman Islands',
 'Caribbean Netherlands',
 'Curaçao',
+'Falkland Islands (Malvinas)',
 'Faroe Islands',
 'French Guiana',
 'French Polynesia',

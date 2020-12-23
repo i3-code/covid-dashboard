@@ -21,7 +21,7 @@ export default class Left extends React.Component {
         <CountryFilter api={this.props.api} />
         <CountryList api={this.props.api} />
         <Nav api={this.props.api} carousel={true} filters={this.state.fullscreen} />
-        <DateStamp />
+        <DateStamp api={this.props.api} />
       </div>
     );
   }
