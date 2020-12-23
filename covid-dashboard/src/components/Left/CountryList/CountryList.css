@@ -3,11 +3,18 @@
   height: 100%;
   overflow: auto;
   font-size: 16px;
+  border: 1px solid #4e5665;
 }
 
 @media (orientation: portrait) {
   .CountryList {
     max-height: 10rem;
+  }
+}
+
+@media (max-width: 1366px) {
+  .CountryList {
+    font-size: 14px;
   }
 }
 

@@ -1,11 +1,12 @@
 .date_content {
   font-size: 23px;
   font-weight: 600;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  text-align: center;
+}
+
+@media (orientation: portrait), (max-width: 1366px) {
+  .date_content {
+    font-size: 20px;
+  }
 }
 /*# sourceMappingURL=DateStamp.css.map */

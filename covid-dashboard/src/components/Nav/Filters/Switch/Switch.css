@@ -82,11 +82,11 @@ input:checked + .can_toggle__switch .value_on {
   border-radius: 50%;
 }
 
-@media (orientation: portrait) {
+@media (orientation: portrait), (max-width: 1366px) {
   .can_toggle {
     position: relative;
     display: inline-block;
-    width: 110px;
+    width: 105px;
     height: 30px;
   }
   .can_toggle input {
@@ -99,8 +99,8 @@ input:checked + .can_toggle__switch .value_on {
     left: 5px;
   }
   input:checked + .can_toggle__switch:before {
-    -webkit-transform: translateX(75px);
-            transform: translateX(75px);
+    -webkit-transform: translateX(70px);
+            transform: translateX(70px);
   }
   .value_on,
   .value_off {

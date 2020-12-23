@@ -79,11 +79,11 @@ input:checked + .can_toggle__switch .value_on {
   border-radius: 50%;
 }
 
-@media (orientation: portrait) {
+@media (orientation: portrait), (max-width: 1366px) {
   .can_toggle {
     position: relative;
     display: inline-block;
-    width:  110px;
+    width:  105px;
     height: 30px;
 
     input {
@@ -102,7 +102,7 @@ input:checked + .can_toggle__switch .value_on {
   }
   
   input:checked + .can_toggle__switch:before {
-    transform: translateX(75px);
+    transform: translateX(70px);
   }
   
   .value_on,
