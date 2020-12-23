@@ -8,6 +8,7 @@ import Center from './components/Center/Center';
 import Right from './components/Right/Right';
 import Footer from './components/Footer/Footer';
 import { countryNames } from './data/countries.js';
+import { badCountries } from './data/badCountries';
 
 import { AppContext } from './Context';
 export default class App extends React.Component {
@@ -75,8 +76,9 @@ export default class App extends React.Component {
 
   fetchHistory(child, url = '', countryFilter = true) {
     const prefix = (url) ? url : '';
-    const country = (this.state.api.country && countryFilter) ? `/${this.state.api.country}` : '/all';
-    const query = `${prefix}${country}?lastdays=all`;
+    let country = (this.state.api.country && countryFilter) ? `${this.state.api.country}` : 'all';
+    if (badCountries.includes(country)) country = 'all';
+    const query = `${prefix}/${country}?lastdays=all`;
     this.fetchData(query, this.resultCallBack.bind(child), this.errorCallBack.bind(child));
   }
 
