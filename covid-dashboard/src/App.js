@@ -22,6 +22,7 @@ export default class App extends React.Component {
         sortIndex: 0,
         today: false,
         per100k: false,
+        fetchAll: this.fetchAll.bind(this),
         fetchCountry: this.fetchCountry.bind(this),
         fetchHistory: this.fetchHistory.bind(this),
         toggleApiState: this.toggleApiState.bind(this),
@@ -63,6 +64,11 @@ export default class App extends React.Component {
     newState.isLoaded = true;
     newState.error = error;
     this.setState(newState);
+  }
+
+  fetchAll(child, url = '') {
+    const query = `${url}?allowNull=false`;
+    this.fetchData(query, this.resultCallBack.bind(child), this.errorCallBack.bind(child));
   }
 
   fetchCountry(child, url = '', countryFilter = true) {
