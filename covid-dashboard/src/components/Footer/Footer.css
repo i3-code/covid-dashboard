@@ -16,7 +16,6 @@
 }
 
 .Footer_links {
-  margin: 0 10px 0 10px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -29,10 +28,13 @@
 }
 
 .Footer_link {
-  margin-left: 10px;
   display: inline-block;
   text-decoration: none;
   color: #d6d6d6;
+}
+
+.Footer_link:last-child {
+  margin-left: 10px;
 }
 
 .Footer_logo {

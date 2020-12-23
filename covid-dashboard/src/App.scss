@@ -74,9 +74,14 @@ img {
   color: #d6d6d6;
 }
 
+@media (orientation: portrait), (max-width: 1366px)  {
+  .Header {
+    font-size: 25px;
+  }
+}
+
 .Left {
   grid-area: l;
-
   min-height: 82vh;
   max-height: 82vh;
   display: grid;
@@ -93,7 +98,7 @@ img {
 
 .Nav {
   display: flex;
-  // align-items: center;
+  justify-content: space-around;
 }
 
 .Center {
@@ -104,29 +109,8 @@ img {
 }
 
 .Center .Nav {
-  justify-content: space-around;
-  padding: 5px 0;
+  // padding: 3px 0;
   border: none;
-  width: 90%;
-}
-
-.Center .Carousel {
-  width: 40%;
-}  
-
-.Center .Filters {
-  width: 40%;
-}  
-
-
-@media (orientation: portrait) {
-  .Center .Nav {
-    width: 100%;
-  }
-
-  .Center .Filters {
-    width: 50%;
-  }
 }
 
 .Right {
@@ -192,16 +176,66 @@ img {
   }
 
   & .graph-container {
-    max-width: 30rem;
+    max-width: 35rem;
+    max-height: 20rem;
   }
 
   &.Left {
     padding: 1rem;
     max-height: 100vh;
+    align-items: center;
+  }
+
+  & .CountryList {
+      max-height: 47rem;
+  }
+
+  &.Center .Nav {
+    padding: 5px 0;
+  }
+
+  .Nav {
+    margin: 0 auto;
+    width: 60%;
+  }
+
+  .Carousel {
+    width: 40%;
+  }
+
+  .Filters {
+    width: 40%;
+  }
+
+  @media (orientation: portrait), (max-width: 1366px)  {
+    .Nav {
+      width: 80%;
+    }
+  
+    .Carousel {
+      width: 40%;
+    }
+  
+    .Filters {
+      width: 40%;
+    }
+  
   }
   
-  & .Carousel {
-    margin: 0 auto;
-    width: 40%;
+  @media (max-width: 768px)  {
+    .Nav {
+      width: 100%;
+      flex-direction: column;
+    }
+  
+    .Carousel {
+      width: 60%;
+    }  
+  
+    .Filters {
+      margin-top: 1rem;
+      justify-content: space-between;
+      width: 60%;
+    }
   }
 }
