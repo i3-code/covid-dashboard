@@ -119,7 +119,7 @@ export default class Keyboard {
     const keyId = keyCode.toLowerCase();
     const key = document.getElementById(keyId);
     if (key) {
-      // event.preventDefault();
+      event.preventDefault();
       let keyChar = key.getAttribute("key");
       const keyReplace = this.keys.replaces[keyChar];
       if (keyReplace) keyChar = String.fromCharCode(keyReplace);

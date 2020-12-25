@@ -16,6 +16,7 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       api: {
+        lang: props.lang,
         country: '',
         filter: '',
         sort: ['cases', 'deaths', 'recovered'],
@@ -125,7 +126,7 @@ export default class App extends React.Component {
           <Left api={this.state.api} />
           <Center api={this.state.api} />
           <Right api={this.state.api} />
-          <Footer />
+          <Footer api={this.state.api} />
         </div>
       </AppContext.Provider>
     );
