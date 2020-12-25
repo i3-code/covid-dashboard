@@ -12,16 +12,16 @@
       display:flex;
       justify-content: center;
       align-items: center;
+      flex-wrap: wrap;
     }
   
     &_link {
       display: inline-block;
       text-decoration: none;
       color: #d6d6d6;
-    }
-  
-    &_link:last-child {
-      margin-left: 10px;
+      flex-wrap: wrap;
+      margin: 0 5px;
+      white-space: nowrap;
     }
 
     &_logo {

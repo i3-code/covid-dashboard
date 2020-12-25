@@ -32,7 +32,7 @@ export default class CountryFilter extends React.Component {
         id="keyboard-input"
         type="text"
         onChange={this.onChange.bind(this)}
-        placeholder="Search.."
+        placeholder="Search..."
         title="Type in a country name"
         className="CountryFilter"
       />
