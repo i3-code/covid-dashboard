@@ -18,11 +18,11 @@
 
 .keyboard {
   background-color: #d6d6d6;
-  top: 10rem;
+  bottom: 1rem;
+  left: 1rem;
   position: absolute;
-  width: 50rem;
+  width: 460px;
   display: grid;
-  margin: 0 auto;
   user-select: none;
   opacity: 0;
   visibility: hidden;
@@ -31,7 +31,7 @@
 }
 
 .keyboard-visible {
-  opacity: 1;
+  opacity: 0.75;
   visibility: visible;
 }
 
@@ -42,25 +42,25 @@
 }
 
 .kb-line-0 {
-  grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 2fr 1fr;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 2fr;
 }
 
 .kb-line-1 {
-  grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1.5fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1.5fr;
 }
 .kb-line-2 {
-  grid-template-columns: 2.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 2.5fr 1fr;
+  grid-template-columns: 2.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 2.5fr;
 }
 .kb-line-3 {
-  grid-template-columns: 3fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 3fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 .kb-line-4 {
-  grid-template-columns: 2fr 1fr 1fr 6fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 2fr 6fr 1fr 1fr;
 }
 
 .kb-key {
-  margin: 0.5rem;
-  height: 3rem;
+  margin: 0.25rem;
+  height: 2rem;
   display: flex;
   font-size: 1rem;
   box-shadow: 0.2em 0.2em 0.3em;
@@ -97,58 +97,4 @@
   align-self: flex-start;
   font-size: 0.75em;
   opacity: 0.5;
-}
-
-@media (max-width: 1100px) {
-  .keyboard-input {
-    height: 19vw;
-  }
-
-  .keyboard {
-    width: 90%;
-
-  }
-
-  .kb-line-0 {
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  }
-  
-  .kb-line-1 {
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  }
-  .kb-line-2 {
-    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 2.5fr;
-  }
-  .kb-line-3 {
-    grid-template-columns: 2.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  }
-  .kb-line-4 {
-    grid-template-columns: 1.5fr 1fr 1fr 6fr 1fr 1fr 1fr 1fr 1fr;
-  }
-
-  .kb-key {
-    margin: 0.25rem;
-    height: 5rem;
-    font-size: 2.8rem;
-    box-shadow: 0.1em 0.1em 0.2em;
-  }
-
-  .kb-key:hover {
-    transform: scale(1);
-    color: #000000;
-    background-color: #ffffff;
-  }
-
-  .kb-key-toggle {
-    border: 0.1em solid #ff0000;
-    box-shadow: 0.05em 0.05em 0.1em;
-  }
-
-  .kb-key-press,
-  .kb-key:active,
-  .kb-key:focus {
-    box-shadow: 0.05em 0.05em 0.1em;
-    color: #000000;
-    background-color: #ffffff;
-  }
 }

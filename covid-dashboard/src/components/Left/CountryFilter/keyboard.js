@@ -1,20 +1,21 @@
 import { KEYS } from "./keys";
 
 export default class Keyboard {
-  constructor(inject) {
+  constructor(inject, input, writeCallBack) {
     this.layout = "en";
     this.justLoaded = true;
     this.shift = false;
     this.caps = false;
     this.insert = false;
-    this.init(inject);
+    this.writeCallBack = writeCallBack;
+    this.init(inject, input);
   }
 
-  init(inject) {
+  init(inject, input) {
     this.keys = KEYS;
     const kbDiv = document.createElement("div");
     kbDiv.classList.add("keyboard");
-    const main = document.body;
+    const main = inject;
     const layout = this.keys[this.layout];
     const icons = this.keys["icons"];
     const specials = this.keys["specials"];
@@ -52,7 +53,7 @@ export default class Keyboard {
       }
     }
     main.appendChild(kbDiv);
-    inject.addEventListener('focus', this.inputEngine.bind(this));
+    input.addEventListener('focus', this.inputEngine.bind(this));
   }
 
   renderKeyboard() {
@@ -247,6 +248,7 @@ export default class Keyboard {
         }
         inputField.blur();
         inputField.value = value;
+        this.writeCallBack(value);
         inputField.setSelectionRange(start, end, direction);
         inputField.focus();
       }

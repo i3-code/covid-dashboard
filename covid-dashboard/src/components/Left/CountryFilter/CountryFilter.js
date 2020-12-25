@@ -1,8 +1,9 @@
-import './CountryFilter.scss';
-// import './kb-style.css';
+import "./CountryFilter.scss";
+import "./kb-style.css";
+import "./icons.css";
 
-import React from 'react';
-// import Keyboard from './keyboard';
+import React from "react";
+import Keyboard from "./keyboard";
 export default class CountryFilter extends React.Component {
   constructor(props) {
     super(props);
@@ -11,25 +12,30 @@ export default class CountryFilter extends React.Component {
     };
   }
 
-  onChange(event) {
-    const filter = (event.target.value.match(/[a-z.-\s]+/ig) || [''])[0];
-    this.state.api.toggleApiState('filter', filter);
+  writeFilter(value= '') {
+    const filter = (value.match(/[a-z.-\s]+/gi) || [""])[0];
+    this.state.api.toggleApiState("filter", filter);
   }
 
-  // componentDidMount() {
-  //   const inject = document.getElementById('keyboard-input');
-  //   new Keyboard(inject);
-  // }
+  onChange(event) {
+    this.writeFilter(event.target.value);
+  }
+  
+  componentDidMount() {
+    const input = document.getElementById("keyboard-input");
+    new Keyboard(document.body, input, this.writeFilter.bind(this));
+  }
 
   render() {
     return (
-        <input
-          id="keyboard-input"
-          type="text"
-          onChange={this.onChange.bind(this)}
-          placeholder="Search.."
-          title="Type in a country name"
-          className="CountryFilter" />
+      <input
+        id="keyboard-input"
+        type="text"
+        onChange={this.onChange.bind(this)}
+        placeholder="Search.."
+        title="Type in a country name"
+        className="CountryFilter"
+      />
     );
   }
 }
