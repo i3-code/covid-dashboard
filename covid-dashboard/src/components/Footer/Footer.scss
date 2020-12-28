@@ -1,0 +1,35 @@
+.Footer {
+  background-color: #373d48;
+  border: 1px solid #4e5665;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+  color: #d6d6d6;
+  
+    &_links {
+      display:flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+  
+    &_link {
+      display: inline-block;
+      text-decoration: none;
+      color: #d6d6d6;
+      flex-wrap: wrap;
+      margin: 0 5px;
+      white-space: nowrap;
+    }
+
+    &_logo {
+      display: flex;
+      width: 7rem;
+    }
+  
+    i {
+      margin-right: 10px;
+    }
+  }

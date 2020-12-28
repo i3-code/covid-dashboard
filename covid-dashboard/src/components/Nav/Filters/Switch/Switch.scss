@@ -1,0 +1,113 @@
+.can_toggle {
+  position: relative;
+  display: inline-block;
+  width:  130px;
+  height: 40px;
+  
+  input {
+    display:none;
+  }
+  
+}
+
+.can_toggle__switch {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  cursor: pointer;
+  background-color: #282c34;
+  transition: .4s;
+
+  &:before {
+    position: absolute;
+    content: "";
+    height: 30px;
+    width: 30px;
+    top: 5px;
+    left: 10px;
+    background-color: white;
+    transition: .4s;
+  }
+}
+
+input:checked + .can_toggle__switch[data-sort='0'] {
+  background-color: #a50f15;
+}
+
+input:checked + .can_toggle__switch[data-sort='1'] {
+  background-color: #08519c;
+}
+
+input:checked + .can_toggle__switch[data-sort='2'] {
+  background-color: #006d2c;
+}
+
+input:checked + .can_toggle__switch:before {
+  transform: translateX(80px);
+}
+
+.value_off {
+  display: none;
+}
+
+.value_on,
+.value_off {
+  color: white;
+  position: absolute;
+  transform: translate(-50%,-50%);
+  top: 48%;
+  left: 62%;
+  font-size: 18px;
+}
+
+input:checked + .can_toggle__switch .value_off {
+  display: block;
+  left: 35%;
+}
+
+input:checked + .can_toggle__switch .value_on {
+  display: none;
+}
+
+.can_toggle__switch.round {
+  border-radius: 35px;
+}
+
+.can_toggle__switch.round:before {
+  border-radius: 50%;
+}
+
+@media (orientation: portrait), (max-width: 1366px) {
+  .can_toggle {
+    position: relative;
+    display: inline-block;
+    width:  105px;
+    height: 30px;
+
+    input {
+      display:none;
+    }
+    
+  }
+  
+  .can_toggle__switch {
+    &:before {
+      height: 25px;
+      width: 25px;
+      top: 2px;
+      left: 5px;
+    }
+  }
+  
+  input:checked + .can_toggle__switch:before {
+    transform: translateX(70px);
+  }
+  
+  .value_on,
+  .value_off {
+    font-size: 16px;
+  }
+
+}

@@ -1,0 +1,40 @@
+.countryCounter {
+    font-weight: bold;
+    margin: 0 0.5em;
+}
+.countryCounter[data-sort='0'] {
+    color: #a50f15;
+}
+  
+.countryCounter[data-sort='1'] {
+    color: #08519c;
+}
+  
+.countryCounter[data-sort='2'] {
+    color: #006d2c;
+}
+
+.countryName {
+    color: #d6d6d6;
+}
+
+.countryFlag {
+    display: flex;
+    width: 16px;
+    height: 16px;
+}
+
+.country {
+    display: flex;
+    padding: 0.1em;
+    cursor: pointer;
+    &:hover, &.selected {
+        background-color: #d6d6d6;
+        & .countryName {
+            color: #000000;
+        }
+        & .countryFlag {
+            border: 0.01em solid #000000;
+        }
+    }
+}

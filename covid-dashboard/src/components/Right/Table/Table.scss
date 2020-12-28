@@ -1,0 +1,27 @@
+.Table {
+  position: relative;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 20px;
+
+  &_country_name {
+      font-size: 28px;
+  }
+}
+
+@media (orientation: portrait), (max-width: 1366px)  {
+  .Table {
+    font-size: 18px;
+  
+    &_country_name {
+        font-size: 25px;
+    }
+  }
+}
+
+hr {
+    border-top: 1px solid #d6d6d6;
+}
