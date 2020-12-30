@@ -27,11 +27,22 @@ export function toggleFullScreen(event) {
   this.setState(newState);
 }
 
+const fetchCache = {};
+
 function fetchData(query, resultCallBack, errorCallBack) {
   const url = `${MAIN_URL}${query}`;
+  const key = JSON.stringify(url);
+  if (fetchCache[key]) {
+    resultCallBack(JSON.parse(fetchCache[key]));
+    return;
+  }
+  
   fetch(url)
   .then(response => response.json())
-  .then(result => resultCallBack(result))
+  .then(result => {
+    fetchCache[key] = JSON.stringify(result);
+    resultCallBack(result)
+  })
   .catch(error => errorCallBack(error));
 }
 
