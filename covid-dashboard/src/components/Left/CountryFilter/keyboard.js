@@ -44,10 +44,9 @@ export default class Keyboard {
         kbKeyDiv.setAttribute("key", keyKey.toLowerCase());
         kbKeyDiv.setAttribute("code", keyCode);
         kbKeyDiv.innerHTML = `
-                                          <div class="kb-shift-key" id="shift-${keyCodeLower}">${keyShiftChar}</div>
-                                          <div id="char-${keyCodeLower}">${keyChar}</div>
-                                          <div></div>
-                                         `;
+          <div class="kb-shift-key" id="shift-${keyCodeLower}">${keyShiftChar}</div>
+          <div id="char-${keyCodeLower}">${keyChar}</div>
+          <div></div>`;
         kbLineDiv.appendChild(kbKeyDiv);
         kbKeyDiv.addEventListener("click", this.inputEngine.bind(this));
       }
@@ -134,8 +133,7 @@ export default class Keyboard {
 
         if (keyChar.length < 2) {
           if (keyCode === "Tab") keyChar = "    ";
-          value =
-            value.slice(0, start) + keyChar + value.slice(end + +this.insert);
+          value = value.slice(0, start) + keyChar + value.slice(end + +this.insert);
           start += keyChar.length;
           end = start;
         }

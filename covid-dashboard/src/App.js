@@ -24,7 +24,7 @@ export default class App extends React.Component {
         <Left app={this} />
         <Center app={this} />
         <Right app={this} />
-        <Footer app={this} />
+        <Footer />
       </div>
     );
   }

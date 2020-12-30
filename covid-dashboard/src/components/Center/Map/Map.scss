@@ -4,7 +4,6 @@
     height: 100%;
     outline: 0;
     z-index: 0;
-    /* font-family: 'Open Sans', sans-serif; */
 }
 
 .leaflet-popup-content-wrapper, .leaflet-popup-tip {
@@ -22,7 +21,6 @@ hr {
 }
 
 .leaflet-control-zoom a  {
-    /* font-size: 24px; */
     color: #d6d6d6;
     background-color: #373d48;
     border-bottom: 1px solid #373d48;
@@ -32,7 +30,6 @@ hr {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    /* justify-content: center; */
     min-width: 150px;
     max-width: 250px;
     max-height: 250px;
