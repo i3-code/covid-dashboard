@@ -5,25 +5,9 @@ import "./icons.css";
 import React from "react";
 import Keyboard from "./keyboard";
 export default class CountryFilter extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      api: props.api,
-    };
-  }
-
-  writeFilter(value= '') {
-    const filter = (value.match(/[a-z.-\s]+/gi) || [""])[0];
-    this.state.api.toggleApiState("filter", filter);
-  }
-
-  onChange(event) {
-    this.writeFilter(event.target.value);
-  }
-  
   componentDidMount() {
     const input = document.getElementById("keyboard-input");
-    new Keyboard(document.body, input, this.writeFilter.bind(this));
+    new Keyboard(document.body, input, this.props.writeFilter);
   }
 
   render() {
@@ -31,7 +15,7 @@ export default class CountryFilter extends React.Component {
       <input
         id="keyboard-input"
         type="text"
-        onChange={this.onChange.bind(this)}
+        onChange={this.props.onChange}
         placeholder="Search..."
         title="Type in a country name"
         className="CountryFilter"

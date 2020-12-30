@@ -6,7 +6,6 @@ export default class News extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        api: props.api,
         error: null,
         isLoaded: false,
         items: [],
@@ -43,32 +42,28 @@ export default class News extends React.Component {
 
   render() {
     const { error, isLoaded, items } = this.state;
-    if (error) {
-      return <div>Error: {error.message}</div>;
-    } else if (!isLoaded) {
-      return <div>Loading...</div>;
-    } else {
-        const articles = items.articles || [];
-        const content = [];
-        articles.forEach(element => {
-            content.push(`${element.title}: ${element.description}. ${element.source.name}`);
-        });
-        const newsLine = content.join(' | ');
-        return (
-        <div
+    if (error) return <div>Error: {error.message}</div>;
+    if (!isLoaded) return <div>Loading...</div>;
+    const articles = items.articles || [];
+    const content = [];
+    articles.forEach(element => {
+     content.push(`${element.title}: ${element.description}. ${element.source.name}`);
+    });
+    const newsLine = content.join(' | ');
+    return (
+      <div
         className="news-holder"
         style={{
-            minWidth: '150px',
-            maxWidth: '500px',
-            whiteSpace: 'nowrap',
-            margin: '0 10px',
+          minWidth: '150px',
+          maxWidth: '500px',
+          whiteSpace: 'nowrap',
+          margin: '0 10px',
         }}
-        >
-            <Marquee direction="left">
-            {newsLine}
-            </Marquee>
-        </div>
-        );
-    }  
+      >
+      <Marquee direction="left">
+        {newsLine}
+      </Marquee>
+      </div>
+    );
   }
 }

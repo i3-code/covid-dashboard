@@ -1,26 +1,24 @@
 import React from 'react';
 import './Country.scss';
 
-import { AppContext } from '../../../../Context';
-
+import { toggleApiState } from '../../../../utils';
 export default class Country extends React.Component {
+  constructor(props) {
+    super(props);
+    this.toggleApiState = toggleApiState.bind(props.app);
+  }
+
   render() {
+    const sameCountry = (this.props.app.state.country === this.props.name);
+    const countryClass = (sameCountry) ? 'country selected' : 'country';
     return (
-      <AppContext.Consumer>
-        {context => {
-          const sameCountry = (context.api.country === this.props.name);
-          const countryClass = (sameCountry) ? 'country selected' : 'country';
-          return (
              <li className={countryClass} onClick={() => {
               const newCountry = (sameCountry) ? '' : this.props.name;
-              context.api.toggleApiState('country', newCountry);
+              this.toggleApiState('country', newCountry);
               }}>
              <span className="countryFlag"><img src={this.props.flag} alt=""/></span>
-             <span className="countryCounter" data-sort={context.api.sortIndex}>{this.props.count}</span>
+             <span className="countryCounter" data-sort={this.props.app.state.sortIndex}>{this.props.count}</span>
              <span className="countryName">{this.props.name}</span>
-           </li>
-      )}}
-    </AppContext.Consumer>
-    );
+           </li>);
   }
 }

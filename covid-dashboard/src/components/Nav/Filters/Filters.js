@@ -2,22 +2,22 @@ import './Filters.scss';
 import React from 'react';
 import Switch from './Switch/Switch';
 
+import { toggleApiState } from '../../../utils';
+
 export default class Filters extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      api: props.api,
-    }
+    this.toggleApiState = toggleApiState.bind(props.app)
   }
 
   changeView(event) {
     const inputState = event.target.checked;
-    this.state.api.toggleApiState('today', inputState);
+    this.toggleApiState('today', inputState);
   }
 
   changeTotal(event) {
     const inputState = event.target.checked;
-    this.state.api.toggleApiState('per100k', inputState);
+    this.toggleApiState('per100k', inputState);
   }
 
   render() {
@@ -26,8 +26,8 @@ export default class Filters extends React.Component {
 
     return (
       <div className="Filters">
-        <Switch name="ViewSwitch" valueOff="total" valueOn="today" action={changeView} api={this.props.api} />
-        <Switch name="TotalSwitch" valueOff="total" valueOn="per100k" action={changeTotal} api={this.props.api} />
+        <Switch name="ViewSwitch" valueOff="total" valueOn="today" action={changeView} app={this.props.app} />
+        <Switch name="TotalSwitch" valueOff="total" valueOn="per100k" action={changeTotal} app={this.props.app} />
       </div>
     );
   }

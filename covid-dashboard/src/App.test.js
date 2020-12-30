@@ -29,10 +29,10 @@ test('render news', () => {
 });
 
 test('render map', () => {
-  const api = {
-    fetchCountry: (value) => value,
+  const app = {
+    state: {sortIndex: 0},
   }
-  const { container, getByText } = render(<Map api={api}/>);
+  const { container, getByText } = render(<Map app={app} />);
   expect(getByText(loadingString)).toBeInTheDocument();
   expect(container.firstChild).toMatchSnapshot(loadingSnapshot);
 });

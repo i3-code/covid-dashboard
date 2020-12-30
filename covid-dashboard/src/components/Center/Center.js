@@ -1,13 +1,13 @@
-// import './Center.scss';
 import React from 'react';
 import Map from './Map/Map';
 import Nav from '../Nav/Nav';
+
+import { toggleFullScreen } from '../../utils';
 
 export default class Center extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      api: props.api,
       fullscreen: false,
     }
   }
@@ -15,9 +15,9 @@ export default class Center extends React.Component {
   render() {
     return (
       <main className="Center component">
-        <button className="expand" onClick={this.props.api.toggleFullScreen.bind(this)}></button>
-        <Map api={this.props.api} />
-        <Nav api={this.props.api} carousel={this.state.fullscreen} filters={this.state.fullscreen} />
+        <button className="expand" onClick={toggleFullScreen.bind(this)}></button>
+        <Map app={this.props.app} />
+        <Nav app={this.props.app} carousel={this.state.fullscreen} filters={this.state.fullscreen} />
       </main>
     );
   }

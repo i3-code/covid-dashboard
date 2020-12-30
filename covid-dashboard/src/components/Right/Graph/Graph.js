@@ -2,20 +2,23 @@ import './Graph.scss';
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, Brush, AreaChart, Area, ResponsiveContainer } from 'recharts';
 import Nav from '../../Nav/Nav';
+
+import { MODES, THROTTLE_TIME } from '../../../constants';
+import { fetchHistory, toggleFullScreen } from '../../../utils';
 export default class Graph extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      api: props.api,
       error: null,
       isLoaded: false,
       items: [],
       fullscreen: false,
     };
+    this.fetchHistory = fetchHistory.bind(props.app);
   }
   
   fetchData() {
-    this.state.api.fetchHistory(this, 'historical', true);
+    this.fetchHistory(this, 'historical', true);
   }
 
   componentDidMount() {
@@ -26,24 +29,21 @@ export default class Graph extends React.Component {
     if (this.throttle) return false;
     this.throttle = true;
     this.fetchData();
-    setTimeout(() => this.throttle = false, this.state.api.throttleTime);
+    setTimeout(() => this.throttle = false, THROTTLE_TIME);
   }
 
   render() {
     const { error, isLoaded, items } = this.state;
-    if (error) {
-      return <div>Error: {error.message}</div>;
-    } else if (!isLoaded) {
-      return <div>Loading...</div>;
-    } else {
-      const nullItems = {
-        cases: {"1/22/20": 0,},
-        deaths: {"1/22/20": 0,},
-        recovered: {"1/22/20": 0,}
-      }
-      const timeline = (items.country) ? items.timeline : (items.message) ? nullItems : items;
-      const sort = this.state.api.sort[this.state.api.sortIndex];
-      const data = [];
+    if (error) return <div>Error: {error.message}</div>;
+    if (!isLoaded) return <div>Loading...</div>;
+    const nullItems = {
+      cases: {"1/22/20": 0,},
+      deaths: {"1/22/20": 0,},
+      recovered: {"1/22/20": 0,}
+    }
+    const timeline = (items.country) ? items.timeline : (items.message) ? nullItems : items;
+    const sort = MODES[this.props.app.state.sortIndex];
+    const data = [];
       if (!timeline[sort]) { console.log(timeline)} else {
         for (const [key, value] of Object.entries(timeline[sort])) {
           const unit = {date: key};
@@ -60,7 +60,7 @@ export default class Graph extends React.Component {
       }
       return (
         <div className="Graph component">
-          <button className="expand" onClick={this.props.api.toggleFullScreen.bind(this)}></button>
+          <button className="expand" onClick={toggleFullScreen.bind(this)}></button>
           <div className="graph-container">
             <ResponsiveContainer width={'99%'} height={'99%'} >
               <LineChart data={data} >
@@ -93,10 +93,8 @@ export default class Graph extends React.Component {
               </LineChart>
             </ResponsiveContainer>
           </div>
-          <Nav api={this.props.api} carousel={this.state.fullscreen} filters={this.state.fullscreen} />
+          <Nav app={this.props.app} carousel={this.state.fullscreen} filters={this.state.fullscreen} />
         </div>
-      )
-    }
-
+      );
   }
 }
