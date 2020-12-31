@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom';
 import { countryNames } from './data/countries.js';
 import { badCountries } from './data/badCountries';
-import { MAIN_URL, MODES } from './constants';
+import { MAIN_URL, MODES, ERROR_REPEAT_TIME } from './constants';
 
 export function countryName(country) {
     for (const item of countryNames) {
@@ -43,12 +43,16 @@ function fetchData(query, resultCallBack, errorCallBack) {
     fetchCache[key] = JSON.stringify(result);
     resultCallBack(result)
   })
-  .catch(error => errorCallBack(error));
+  .catch(error => {
+    errorCallBack(error);
+    setTimeout(() => fetchData(query, resultCallBack, errorCallBack), ERROR_REPEAT_TIME);
+  });
 }
 
 function resultCallBack(result) {
   const newState = {...this.state};
   newState.isLoaded = true;
+  if (newState.error) newState.error = undefined;
   newState.items = result;
   this.setState(newState);
 }
