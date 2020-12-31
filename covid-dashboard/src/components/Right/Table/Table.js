@@ -37,6 +37,7 @@ export default class Table extends React.Component {
     const { error, isLoaded, items } = this.state;
     if (error) return <div>Error: {error.message}</div>;
     if (!isLoaded) return <div>Loading...</div>;
+    
     const today = this.props.app.state.today;
     const population = items.population;
     let cases = (today) ? items.todayCases : items.cases;

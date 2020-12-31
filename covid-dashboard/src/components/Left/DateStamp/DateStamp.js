@@ -32,6 +32,7 @@ export default class DateStamp extends React.Component {
     const { error, isLoaded, items } = this.state;
     if (error) return <div>Error: {error.message}</div>;
     if (!isLoaded) return <div>Loading...</div>;
+    
     const date = new Date(items.updated).toDateString();
     return (
       <div className="date_content">{date}</div>

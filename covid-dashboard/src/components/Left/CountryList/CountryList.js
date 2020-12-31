@@ -34,10 +34,11 @@ export default class CountryList extends React.Component {
 
   render() {
     const { error, isLoaded, items } = this.state;
-    const sort = this.chooseSort();
-    const format = this.formatCounter;
     if (error) return <div>Error: {error.message}</div>;
     if (!isLoaded) return <div>Loading...</div>;
+
+    const sort = this.chooseSort();
+    const format = this.formatCounter;
     const regExp = new RegExp(this.props.filter, 'ig');
     return (
       <ul className="CountryList">

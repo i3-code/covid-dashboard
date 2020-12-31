@@ -167,10 +167,10 @@ export default class Map extends React.Component {
     const { error, isLoaded } = this.state;
     if (error) return <div>Error: {error.message}</div>;
     if (!isLoaded) return <div>Loading...</div>;
+
     const position = [40, 2];
     const zoom = 2;
     const timestamp = Date.now();
-
     return (
       <MapContainer center={position} zoom={zoom} zoomControl={false}>
         <TileLayer

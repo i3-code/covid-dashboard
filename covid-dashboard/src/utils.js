@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom';
 import { countryNames } from './data/countries.js';
 import { badCountries } from './data/badCountries';
-import { MAIN_URL, MODES, ERROR_REPEAT_TIME } from './constants';
+import { MAIN_URL, NEWS_URL, MODES, ERROR_REPEAT_TIME } from './constants';
 
 export function countryName(country) {
     for (const item of countryNames) {
@@ -29,8 +29,7 @@ export function toggleFullScreen(event) {
 
 const fetchCache = {};
 
-function fetchData(query, resultCallBack, errorCallBack) {
-  const url = `${MAIN_URL}${query}`;
+function fetchData(url, resultCallBack, errorCallBack) {
   const key = JSON.stringify(url);
   if (fetchCache[key]) {
     resultCallBack(JSON.parse(fetchCache[key]));
@@ -45,7 +44,7 @@ function fetchData(query, resultCallBack, errorCallBack) {
   })
   .catch(error => {
     errorCallBack(error);
-    setTimeout(() => fetchData(query, resultCallBack, errorCallBack), ERROR_REPEAT_TIME);
+    setTimeout(() => fetchData(url, resultCallBack, errorCallBack), ERROR_REPEAT_TIME);
   });
 }
 
@@ -64,27 +63,31 @@ function errorCallBack(error) {
   this.setState(newState);
 }
 
-export function fetchAll(child, url = '') {
-  const query = `${url}?allowNull=false`;
-  fetchData(query, resultCallBack.bind(child), errorCallBack.bind(child));
+export function fetchAll(child, query = '') {
+  const url = `${MAIN_URL}${query}?allowNull=false`;
+  fetchData(url, resultCallBack.bind(child), errorCallBack.bind(child));
 }
 
 
-export function fetchCountry(child, url = '', countryFilter = true) {
+export function fetchCountry(child, query = '', countryFilter = true) {
   const sort = MODES[this.state.sortIndex];
-  const prefix = (url) ? `${url}` : '';
+  const prefix = (query) ? `${query}` : '';
   const country = (this.state.country && countryFilter) ? `/${this.state.country}` : '';
-  const postfix = (url || country) ? '?' : '';
-  const query = `${prefix}${country}${postfix}sort=${sort}&allowNull=false`;
-  fetchData(query, resultCallBack.bind(child), errorCallBack.bind(child));
+  const postfix = (query || country) ? '?' : '';
+  const url = `${MAIN_URL}${prefix}${country}${postfix}sort=${sort}&allowNull=false`;
+  fetchData(url, resultCallBack.bind(child), errorCallBack.bind(child));
 }
 
-export function fetchHistory(child, url = '', countryFilter = true) {
-  const prefix = (url) ? url : '';
+export function fetchHistory(child, query = '', countryFilter = true) {
+  const prefix = (query) ? query : '';
   let country = (this.state.country && countryFilter) ? `${this.state.country}` : 'all';
   if (badCountries.includes(country)) country = 'all';
-  const query = `${prefix}/${country}?lastdays=all`;
-  fetchData(query, resultCallBack.bind(child), errorCallBack.bind(child));
+  const url = `${MAIN_URL}${prefix}/${country}?lastdays=all`;
+  fetchData(url, resultCallBack.bind(child), errorCallBack.bind(child));
+}
+
+export function fetchNews(child) {
+  fetchData(NEWS_URL, resultCallBack.bind(child), errorCallBack.bind(child));
 }
 
 export function chooseSort(sort = '') {

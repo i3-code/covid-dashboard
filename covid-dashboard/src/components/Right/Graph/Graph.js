@@ -36,6 +36,7 @@ export default class Graph extends React.Component {
     const { error, isLoaded, items } = this.state;
     if (error) return <div>Error: {error.message}</div>;
     if (!isLoaded) return <div>Loading...</div>;
+    
     const nullItems = {
       cases: {"1/22/20": 0,},
       deaths: {"1/22/20": 0,},
