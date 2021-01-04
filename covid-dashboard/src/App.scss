@@ -106,10 +106,9 @@ img {
   grid-area: c;
   flex-direction: column;
   min-height: 30rem;
-}
-
-.Center .Nav {
-  border: none;
+  & .Nav {
+    border: none;
+  }
 }
 
 .Right {

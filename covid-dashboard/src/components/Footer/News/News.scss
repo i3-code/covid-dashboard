@@ -1,3 +1,10 @@
+.news-holder {
+    min-width: 150px;
+    max-width: 500px;
+    white-space: nowrap;
+    margin: 0 10px;
+}
+
 .news-holder > div > div {
     z-index: -1 !important;
 }

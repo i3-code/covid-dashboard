@@ -9,18 +9,17 @@ import * as d3 from 'd3';
 import worldData from '../../../data/countries.json';
 import { countryNames } from '../../../data/countries.js';
 
-import { MODES, THROTTLE_TIME } from '../../../constants';
+import { MODES, THROTTLE_TIME, MAP_POSITION, MAP_ZOOM } from '../../../constants';
 import { countryName, toggleApiState, fetchCountry, chooseSort, formatCounter } from '../../../utils';
 
 const casesColors = ['#fee5d9', '#fcae91', '#fb6a4a', '#de2d26', '#a50f15'];
 const deathsColors = ['#eff3ff', '#bdd7e7', '#6baed6', '#3182bd', '#08519c'];
 const recoveredColors = ['#edf8e9', '#bae4b3', '#74c476', '#31a354', '#006d2c'];
+const colors = [casesColors, deathsColors, recoveredColors];
 
 function Legend(props) {
   const map = useMap();
-  const countryData = props.countryData;
-  const max = Math.max(...Object.values(countryData));
-  const colors = [casesColors, deathsColors, recoveredColors];
+  const max = Math.max(...Object.values(props.countryData));
   const countryColors = colors[props.app.state.sortIndex];
   const steps = new Array(countryColors.length).fill().map((_, index) => Math.round(max / (index + 1)));
 
@@ -168,11 +167,9 @@ export default class Map extends React.Component {
     if (error) return <div>Error: {error.message}</div>;
     if (!isLoaded) return <div>Loading...</div>;
 
-    const position = [40, 2];
-    const zoom = 2;
     const timestamp = Date.now();
     return (
-      <MapContainer center={position} zoom={zoom} zoomControl={false}>
+      <MapContainer center={MAP_POSITION} zoom={MAP_ZOOM} zoomControl={false}>
         <TileLayer
           url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
           maxZoom={10}

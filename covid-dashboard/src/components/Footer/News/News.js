@@ -26,15 +26,7 @@ export default class News extends React.Component {
     const articles = items.articles || [];
     const newsLine = articles.map(element => `${element.title}: ${element.description}. ${element.source.name}`).join(' | ');
     return (
-      <div
-        className="news-holder"
-        style={{
-          minWidth: '150px',
-          maxWidth: '500px',
-          whiteSpace: 'nowrap',
-          margin: '0 10px',
-        }}
-      >
+      <div className="news-holder">
       <Marquee direction="left">
         {newsLine}
       </Marquee>
