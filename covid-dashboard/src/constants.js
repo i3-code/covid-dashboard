@@ -5,3 +5,7 @@ export const MAIN_URL = 'https://disease.sh/v3/covid-19/';
 export const NEWS_URL = 'https://gnews.io/api/v4/search?q=COVID&lang=en&token=ea7ff07287becd7cfc5b336bac61d64c';
 export const MAP_POSITION = [40, 2];
 export const MAP_ZOOM = 2;
+const CASES_COLORS = ['#fee5d9', '#fcae91', '#fb6a4a', '#de2d26', '#a50f15'];
+const DEATHS_COLORS = ['#eff3ff', '#bdd7e7', '#6baed6', '#3182bd', '#08519c'];
+const RECOVERED_COLORS = ['#edf8e9', '#bae4b3', '#74c476', '#31a354', '#006d2c'];
+export const COLORS = [CASES_COLORS, DEATHS_COLORS, RECOVERED_COLORS];

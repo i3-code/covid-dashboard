@@ -1,44 +1,15 @@
 import './Map.scss';
 import React from 'react';
-import { MapContainer, MapConsumer, TileLayer, ZoomControl, GeoJSON, useMap } from 'react-leaflet';
-import { useEffect } from "react";
-import L from "leaflet";
+import { MapContainer, MapConsumer, TileLayer, ZoomControl, GeoJSON } from 'react-leaflet';
+import Legend from './Legend/Legend';
 
 import * as d3 from 'd3';
 
 import worldData from '../../../data/countries.json';
 import { countryNames } from '../../../data/countries.js';
 
-import { MODES, THROTTLE_TIME, MAP_POSITION, MAP_ZOOM } from '../../../constants';
+import { MODES, THROTTLE_TIME, COLORS, MAP_POSITION, MAP_ZOOM } from '../../../constants';
 import { countryName, toggleApiState, fetchCountry, chooseSort, formatCounter } from '../../../utils';
-
-const casesColors = ['#fee5d9', '#fcae91', '#fb6a4a', '#de2d26', '#a50f15'];
-const deathsColors = ['#eff3ff', '#bdd7e7', '#6baed6', '#3182bd', '#08519c'];
-const recoveredColors = ['#edf8e9', '#bae4b3', '#74c476', '#31a354', '#006d2c'];
-const colors = [casesColors, deathsColors, recoveredColors];
-
-function Legend(props) {
-  const map = useMap();
-  const max = Math.max(...Object.values(props.countryData));
-  const countryColors = colors[props.app.state.sortIndex];
-  const steps = new Array(countryColors.length).fill().map((_, index) => Math.round(max / (index + 1)));
-
-  useEffect(() => {
-    const legend = L.control({ position: 'bottomleft' });
-    legend.onAdd = () => {
-      const legendDiv = L.DomUtil.create('div', 'info legend');
-      steps.reverse().forEach((item, index) => {
-        const legendLine = L.DomUtil.create('div', 'legend_item', legendDiv);
-        legendLine.innerHTML = `<i style="background: ${countryColors[index]}"></i><span>&lt; ${item}</span>`;
-      });
-      return legendDiv;
-    };
-    legend.addTo(map);
-    return () => legend.remove();
-  }, [map, countryColors, steps]);
-  return null;
-}
-
 export default class Map extends React.Component {
   constructor(props) {
     super(props);
@@ -64,8 +35,7 @@ export default class Map extends React.Component {
       this.countryData[item.countryInfo.iso3] = value;
       data.push(value);
     })
-    const colors = [casesColors, deathsColors, recoveredColors];
-    this.countryColors = d3.scaleQuantile().domain(data).range(colors[this.props.app.state.sortIndex]);
+    this.countryColors = d3.scaleQuantile().domain(data).range(COLORS[this.props.app.state.sortIndex]);
   }
 
   styleGeoJson(id) {
