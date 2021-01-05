@@ -13,18 +13,19 @@ export function countryName(country) {
 
 export function toggleApiState(key, value) {
     if(!key) return false;
-    const country = (key === 'country');
-    const newState = {...this.state};
-    newState[key] = (country) ? countryName(value) : value;
-    this.setState(newState);
+    this.setState((state) => {
+      state[key] = (key === 'country') ? countryName(value) : value;
+      return state;
+    });
 }
 
 export function toggleFullScreen(event) {
   const parentComponent = ReactDOM.findDOMNode(event.target).parentNode;
   parentComponent.classList.toggle('fullscreen');
-  const newState = {...this.state};
-  newState.fullscreen = !newState.fullscreen;
-  this.setState(newState);
+  this.setState((state) => {
+    state.fullscreen = !state.fullscreen;
+    return state;
+  });
 }
 
 const fetchCache = {};
