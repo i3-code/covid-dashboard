@@ -63,34 +63,34 @@ export default class Graph extends React.Component {
         <div className="Graph component">
           <button className="expand" onClick={toggleFullScreen.bind(this)}></button>
           <div className="graph-container">
-            <ResponsiveContainer width={'99%'} height={'99%'} >
+            <ResponsiveContainer>
               <LineChart data={data} >
-              <XAxis dataKey='date' />
-              <YAxis domain={['auto', 'auto']} tickFormatter={shortenNumber}/>
-              <CartesianGrid stroke='#404040' vertical={false} />
-              <Tooltip
-                  wrapperStyle={{
-                    borderColor: 'white',
-                    boxShadow: '2px 2px 3px 0px rgb(204, 204, 204)',
-                  }}
-                  contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.8)' }}
-                  labelStyle={{ fontWeight: 'bold', color: '#404040' }}
+                <XAxis dataKey='date' />
+                <YAxis domain={['auto', 'auto']} tickFormatter={shortenNumber}/>
+                <CartesianGrid stroke='#404040' vertical={false} />
+                <Tooltip
+                    wrapperStyle={{
+                      borderColor: 'white',
+                      boxShadow: '2px 2px 3px 0px rgb(204, 204, 204)',
+                    }}
+                    contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.8)' }}
+                    labelStyle={{ fontWeight: 'bold', color: '#404040' }}
+                  />
+                <Line
+                  type="monotone"
+                  strokeWidth={5}
+                  yAxisId={0}
+                  key="0"
+                  dataKey={sort}
+                  stroke={color}
                 />
-              <Line
-                type="monotone"
-                strokeWidth={5}
-                yAxisId={0}
-                key="0"
-                dataKey={sort}
-                stroke={color}
-              />
-                <Brush dataKey="date">
-                <AreaChart>
-                  <CartesianGrid />
-                  <YAxis hide domain={['auto', 'auto']} />
-                  <Area dataKey={sort} stroke={color} fill={color} dot={false}/>
-                </AreaChart>
-              </Brush>
+                  <Brush dataKey="date">
+                  <AreaChart>
+                    <CartesianGrid />
+                    <YAxis hide domain={['auto', 'auto']} />
+                    <Area dataKey={sort} stroke={color} fill={color} dot={false}/>
+                  </AreaChart>
+                </Brush>
               </LineChart>
             </ResponsiveContainer>
           </div>
